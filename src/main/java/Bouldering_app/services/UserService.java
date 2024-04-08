@@ -8,20 +8,19 @@ import java.util.List;
 
 public class UserService {
 
-    private List<User> users;
+    private User[] users;
     private Scanner myObj;
+    private static int lastIndex;
+
     private Password_hashing p = new Password_hashing(16);
     public UserService() {
-        this.users = new ArrayList<>();
+        this.users = new User[1000];
         myObj = new Scanner(System.in);
+        lastIndex = 0;
     }
 
-    public void SignUp(){
-
-        System.out.println("---------------");
-        System.out.println("----Sign-up----");
-        System.out.println("---------------");
-
+    public int SignUp(){
+        System.out.println("---------Sign-up---------");
 
         System.out.print("Climber = 1, Setter = 2, close = 0: ");
         String switchel = myObj.nextLine();
@@ -33,15 +32,32 @@ public class UserService {
         System.out.print("Password: ");
         switch (switchel){
             case "1":
-                users.add(new Climber(full_name, p.hash(myObj.nextLine().toCharArray())));
+                users[lastIndex] = new Climber(full_name, p.hash(myObj.nextLine().toCharArray()));
+                lastIndex ++;
                 break;
             case "2":
-                users.add(new Setter(full_name, p.hash(myObj.nextLine().toCharArray())));
+                users[lastIndex] = new Setter(full_name, p.hash(myObj.nextLine().toCharArray()));
+                lastIndex ++;
         }
-
-        //test only
-        System.out.println("add user" + users.getLast().getFull_name());
-        System.out.println("password hashed" + users.getLast().getHashPassword());
+        return lastIndex - 1;
     }
 
+
+    public int LogIn(){
+        System.out.println("---------LogIn---------");
+
+        System.out.print("Full name: ");
+        String full_name = myObj.nextLine();
+
+        System.out.print("Password: ");
+        char[] hashed_password = myObj.nextLine().toCharArray();
+        int i;
+        for(i = 0; i < lastIndex; i ++){
+            if (users[i].getFull_name().equals(full_name) && p.authenticate(hashed_password, users[i].getHashPassword())){
+                return i;
+            }
+        }
+        System.out.println("Numele sau parola sunt gresite");
+        return -1;
+    }
 }

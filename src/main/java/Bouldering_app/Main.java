@@ -6,32 +6,27 @@ import Bouldering_app.services.UserService;
 import java.util.Scanner;
 
 public class Main {
+    private static int loggedUser = -1;
     public static void main(String[] args) {
         Scanner myObj = new Scanner(System.in);
         UserService userService = new UserService();
         System.out.println("Welocome to the Bouldering app:");
 
-
-        boolean ok = true;
-        while(ok == true) {
+        while(loggedUser == -1) {
+            System.out.println("---------Main Page---------");
             System.out.print("Sing Up = 1\nLogIn = 2\nShow Routes = 3\nexit = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
                 case "1":
-                    userService.SignUp();
-                    //TODO LogIn after
-                    ok = false;
+                    loggedUser = userService.SignUp();
                     break;
                 case "2":
-                    //TODO LogIn
-                    ok = false;
+                    loggedUser = userService.LogIn();
                     break;
                 case "3":
                     //TODO  show routes
-                    ok = false;
                     break;
                 case "0":
-                    ok = false;
                     return;
                 default:
                     System.out.println("Alege una dintre cele 4 variante");
