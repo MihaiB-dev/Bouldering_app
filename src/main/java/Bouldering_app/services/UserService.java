@@ -60,4 +60,8 @@ public class UserService {
         System.out.println("Numele sau parola sunt gresite");
         return -1;
     }
+
+    public boolean isSetter(int index){return users[index] instanceof Setter;}
+    public boolean isClimber(int index){return users[index] instanceof Climber;}
+
 }
