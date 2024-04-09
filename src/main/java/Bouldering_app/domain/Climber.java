@@ -5,14 +5,14 @@ import java.util.List;
 
 public class Climber extends User{
     private int avgGrade;
-    private UserStats userStats;
+    private Stats userStats;
     private List<Ascent> ascents;
 
 
     public Climber(String full_name, String hashPassword) {
         super(full_name, hashPassword);
         avgGrade = 0;
-        userStats = new UserStats();
+        userStats = new Stats();
         ascents = new ArrayList<>();
     }
 
@@ -20,7 +20,7 @@ public class Climber extends User{
         return avgGrade;
     }
 
-    public UserStats getUserStats() {
+    public Stats getUserStats() {
         return userStats;
     }
 
