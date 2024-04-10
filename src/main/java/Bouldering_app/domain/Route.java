@@ -51,13 +51,13 @@ public class Route {
 
     @Override
     public String toString() {
-        return "Route{" +
+        return
                 "originalGrade=" + originalGrade +
-                "\nnamePicture=" + namePicture +
-                "\nnrAttempts=" + nrAttempts +
-                "\nliveGrade=" + liveGrade +
-                "\ndateAdded=" + dateAdded +
+                ", namePicture=" + namePicture.getFileName().toString() +
+                ", nrAttempts=" + nrAttempts +
+                ", liveGrade=" + liveGrade +
+                ", dateAdded=" + dateAdded +
                 "\nroutestats=" + routestats.printForRoute()+
-                "}\n";
+                "\n";
     }
 }

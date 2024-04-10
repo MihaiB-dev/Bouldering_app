@@ -49,7 +49,7 @@ public class Main {
                     RouteService.addRouteSetter(UserService.getUser(loggedUser));
                     break;
                 case "2":
-
+                    //TODO make an archive method for the objects and move the images to other file
                     break;
                 case "3":
                     int index = RouteService.chooseRoute(); // if index is -1 then we have an error
@@ -81,11 +81,5 @@ public class Main {
                 Main.setterMainPage();
             }
         }
-
-
-
-
     }
-
-
 }
