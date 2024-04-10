@@ -20,4 +20,8 @@ public class Setter extends User{
     public LocalDate getDateEmployee() {
         return dateEmployee;
     }
+
+    public void addRoutes(Route route){
+        addedRoutes.add(route);
+    }
 }

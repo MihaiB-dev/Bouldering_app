@@ -27,12 +27,12 @@ public class RouteService {
     }
     public static void addRouteSetter(User setter){
         if (setter instanceof Setter) {
-            addRoute();
+            addRoute(setter);
         } else {
             throw new IllegalArgumentException("Only Setter can add pictures");
         }
     }
-    private static void addRoute(){
+    private static void addRoute(User setter){
         System.out.println("---------Add Route---------");
 
         System.out.print("Grade of the route (eg. : 4 or 5PLUS): ");
@@ -52,8 +52,11 @@ public class RouteService {
         }
 
         Stats stats = new Stats();
+        Route newRoute = new Route(grade, image.destinationPath, stats);
+        routes.add(newRoute);
 
-        routes.add(new Route(grade, image.destinationPath, stats));
+        ((Setter)setter).addRoutes(newRoute);
+
     }
     //get the index from a sorted array of Routes by date
     public static int chooseRoute(){
