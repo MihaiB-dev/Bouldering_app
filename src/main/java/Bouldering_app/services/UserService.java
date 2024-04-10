@@ -3,8 +3,7 @@ package Bouldering_app.services;
 import Bouldering_app.domain.*;
 
 import java.util.Scanner;  // Import the Scanner class
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class UserService {
 
@@ -61,9 +60,17 @@ public class UserService {
         return -1;
     }
 
+
+    public static void profile(int index){
+        if (isSetter(index)) {
+            System.out.println(((Setter) users[index]).printProfile());
+        } else {
+            System.out.println(((Climber) users[index]).printProfile());
+        }
+    }
     public static User getUser(int index){return users[index];}
-    public boolean isSetter(int index){return users[index] instanceof Setter;}
-    public boolean isClimber(int index){return users[index] instanceof Climber;}
+    public static boolean isSetter(int index){return users[index] instanceof Setter;}
+    public static boolean isClimber(int index){return users[index] instanceof Climber;}
 
 
 

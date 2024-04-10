@@ -36,5 +36,30 @@ public class Stats {
                 ", flexibility=" + flexibility;
     }
 
+    @Override
+    public String toString() {
+        return "Strength = " + progress_bar(strength) +
+                "\nTechnique = " + progress_bar(technique) +
+                "\nEndurance = " + progress_bar(endurance) +
+                "\nFlexibitility = " + progress_bar(flexibility);
+    }
+
+    private String progress_bar(double value){
+        int completed = (int)value;
+        int remaining = 100 - completed;
+
+        StringBuilder bar = new StringBuilder("[");
+        for (int i = 0; i < completed; i++) {
+            bar.append("=");
+        }
+        for (int i = 0; i < remaining; i++) {
+            bar.append(" ");
+        }
+        bar.append("] ");
+        bar.append(value).append("%");
+
+        return bar.toString();
+    }
+
 
 }

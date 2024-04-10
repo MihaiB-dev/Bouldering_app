@@ -67,7 +67,7 @@ public class RouteService {
         }
         routes_sorted.sort(new RouteDateComparator());
         for (int i = 0; i < routes.size(); i ++){
-            System.out.println("Index: " + i);
+            System.out.println("Route " + i + ": ");
             System.out.print(routes.get(i).toString() + "\n\n");
         }
         System.out.println("Choose a route to see the image by writing the index, or write -1 to exit");
