@@ -41,17 +41,20 @@ public class Main {
     public static void setterMainPage(){
         while(loggedUser != -1){
             System.out.println("---------Setter Main Page---------");
-            System.out.print("Add Routes = 1\nArchive Routes = 2\nShow Routes = 3\nLog Out = 0\nYour choice: ");
+            System.out.print("My profile = 1\nAdd Routes = 2\nArchive Routes = 3\nShow Routes = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
                 case "1":
+                    UserService.profile(loggedUser);
+                    break;
+                case "2":
                     //we add the user as argument to verify if the user is actually a setter
                     RouteService.addRouteSetter(UserService.getUser(loggedUser));
                     break;
-                case "2":
-
-                    break;
                 case "3":
+                    //TODO make an archive method for the objects and move the images to other file
+                    break;
+                case "4":
                     int index = RouteService.chooseRoute(); // if index is -1 then we have an error
                     if(index != -1){
                         RouteService.showImage(index);
@@ -74,18 +77,12 @@ public class Main {
             if(loggedUser == -1){
                 Main.unregisteredMainPage();
             }
-            else if(userService.isClimber(loggedUser)){
+            else if(UserService.isClimber(loggedUser)){
                 //TODO make the climber main page
             }
-            else if(userService.isSetter(loggedUser)){
+            else if(UserService.isSetter(loggedUser)){
                 Main.setterMainPage();
             }
         }
-
-
-
-
     }
-
-
 }

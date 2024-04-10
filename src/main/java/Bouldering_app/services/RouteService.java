@@ -29,7 +29,7 @@ public class RouteService {
         if (setter instanceof Setter) {
             addRoute(setter);
         } else {
-            throw new IllegalArgumentException("Only Setter can add pictures");
+            throw new IllegalArgumentException("Only Setter can add routes");
         }
     }
     private static void addRoute(User setter){
@@ -59,6 +59,7 @@ public class RouteService {
 
     }
     //get the index from a sorted array of Routes by date
+
     public static int chooseRoute(){
         List<Tuple<Route, Integer>> routes_sorted = new ArrayList<>();
         for(int i = 0; i < routes.size(); i ++){
@@ -66,7 +67,7 @@ public class RouteService {
         }
         routes_sorted.sort(new RouteDateComparator());
         for (int i = 0; i < routes.size(); i ++){
-            System.out.println("Index: " + i);
+            System.out.println("Route " + i + ": ");
             System.out.print(routes.get(i).toString() + "\n\n");
         }
         System.out.println("Choose a route to see the image by writing the index, or write -1 to exit");
@@ -89,6 +90,19 @@ public class RouteService {
 
     }
 
+    public static void addAscentClimber(User climber){
+        if(climber instanceof Climber){
+            addAscent(climber);
+        }else {
+            throw new IllegalArgumentException("Only Climbers can add Ascents");
+        }
+    }
+
+    //auto increment route attempts with attempts from the user ascent
+    //Create a function for live grade (get the average of all users that added this route to their ascents) (maybe need a class)
+    private static void addAscent(User climber){
+        //TODO
+    }
     public void archiveRoute(int index){
         archiveRoutes.add(routes.remove(index));
     }

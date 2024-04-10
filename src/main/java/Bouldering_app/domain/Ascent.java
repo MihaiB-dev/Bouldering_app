@@ -7,4 +7,10 @@ public class Ascent {
     private Route route;
     private LocalDateTime date;
     private int attempts;
+
+    public Ascent(Route route, int attempts) {
+        this.route = route;
+        this.attempts = attempts;
+        this.date = LocalDateTime.now();
+    }
 }
