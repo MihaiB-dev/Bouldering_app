@@ -28,4 +28,11 @@ public class Climber extends User{
         return ascents;
     }
 
+    //change the avgGrade
+    //Update user stats
+    public void addAscent(Ascent ascent){
+        ascents.add(ascent);
+        //TODO
+    }
+
 }
