@@ -1,4 +1,4 @@
-package experiments;// https://medium.com/@aadimator/how-to-set-up-opencv-in-intellij-idea-6eb103c1d45c
+package Bouldering_app.domain;// https://medium.com/@aadimator/how-to-set-up-opencv-in-intellij-idea-6eb103c1d45c
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -20,10 +20,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 //for nearest path to edge
+import java.nio.file.Path;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class test_edit_image extends JFrame {
+public class editImage extends JFrame {
 
     //variables for image processing
     private BufferedImage image;
@@ -38,11 +39,11 @@ public class test_edit_image extends JFrame {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    public test_edit_image() {
+    public editImage(Path file) {
         setTitle("Bouldering App");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        filePath = "/Users/Admin/Desktop/Facultate/java/Bouldering_app/src/main/java/experiments/images/test.jpg";
+        filePath = String.valueOf(file);
         // Load the image
         image = loadImage(filePath);
 
@@ -58,11 +59,11 @@ public class test_edit_image extends JFrame {
                 image = loadImage(filePath);
 
                 clickedPoint = new Point(awtPoint.x, awtPoint.y);
-                System.out.println("Clicked point: " + clickedPoint);
+             //   System.out.println("Clicked point: " + clickedPoint);
 
                 // Perform Canny edge detection and determine margin around the detected object
                 updatedPoint = calculateMargin(clickedPoint);
-                System.out.println("Updated point: " + updatedPoint);
+               // System.out.println("Updated point: " + updatedPoint);
 
                 // Update the clicked point with the margin
 //                clickedPoint = updatedPoint;
@@ -136,7 +137,7 @@ public class test_edit_image extends JFrame {
         try {
 
             ImageIO.write(combined, "PNG", new File(filePath));
-            System.out.println("Image with arrow saved successfully.");
+//            System.out.println("Image with arrow saved successfully.");
         } catch (IOException e) {
             System.err.println("Error saving image with arrow: " + e.getMessage());
         }
@@ -169,8 +170,8 @@ public class test_edit_image extends JFrame {
         Mat edges = new Mat();
         Imgproc.Canny(mat, edges, 100, 200);
 
-        String outputFilePath = "/Users/Admin/Desktop/Facultate/java/Bouldering_app/src/main/java/images/canny_image1.png";
-        Imgcodecs.imwrite(outputFilePath, edges);
+//        String outputFilePath = "/Users/Admin/Desktop/Facultate/java/Bouldering_app/src/main/java/images/canny_image1.png";
+//        Imgcodecs.imwrite(outputFilePath, edges);
 
         // Find nearest edge to the clicked point
         double[] nearestEdge = findNearestEdge(edges, clickedPoint);
@@ -226,10 +227,10 @@ public class test_edit_image extends JFrame {
         return null;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            test_edit_image app = new test_edit_image();
-            app.setVisible(true);
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(() -> {
+//            test_edit_image app = new test_edit_image();
+//            app.setVisible(true);
+//        });
+//    }
 }

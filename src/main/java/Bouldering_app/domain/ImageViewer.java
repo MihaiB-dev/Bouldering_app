@@ -1,51 +1,68 @@
 package Bouldering_app.domain;
 
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import javax.imageio.ImageIO;
 
-public class ImageTabViewer {
+public class ImageViewer extends JFrame implements WindowListener {
 
-    private final JFrame frame;
-    private final JTabbedPane tabbedPane;
+    //variables for image processing
+    private BufferedImage image;
+    private JLabel imageLabel;
 
-    public ImageTabViewer(String title) {
-        frame = new JFrame(title);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public ImageViewer(Path path){
+        setTitle("Bouldering App");
 
-        tabbedPane = new JTabbedPane();
-        frame.add(tabbedPane, BorderLayout.CENTER);
+        // Add WindowListener to handle window-closing event
+        addWindowListener(this);
 
-        // Optional: Add a listener to close the application on window closing
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-        });
+       // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        // Load the image
+        image = loadImage(path);
+        // Create a label to display the image
+        imageLabel = new JLabel(new ImageIcon(image.getScaledInstance(image.getWidth(), image.getHeight(), Image.SCALE_SMOOTH)));
+        // Add the label to the content pane
+        getContentPane().add(imageLabel, BorderLayout.CENTER);
+
+        pack();
+        setLocationRelativeTo(null); // Center the window
+
+
     }
 
-    public void addImageTab(String path, String tabTitle) throws IOException {
-        ImageIcon imageIcon = new ImageIcon(ImageIO.read(new File(path)));
-        JLabel imageLabel = new JLabel(imageIcon);
-        JPanel imagePanel = new JPanel();
-        imagePanel.add(imageLabel);
-
-        tabbedPane.addTab(tabTitle, imagePanel);
+    private BufferedImage loadImage(Path filePath) {
+        try {
+            return ImageIO.read(new File(String.valueOf(filePath)));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    @Override
+    public void windowClosing(WindowEvent e) {
+        // Handle window closing event (e.g., set a flag or signal the main thread)
+//        System.exit(0); // Example: Terminate the program
     }
 
-    public void display() {
-        frame.pack();
-        frame.setVisible(true);
-    }
+    // Implement other WindowListener methods (optional)
+    @Override
+    public void windowOpened(WindowEvent e) {}
+    @Override
+    public void windowClosed(WindowEvent e) {}
+    @Override
+    public void windowIconified(WindowEvent e) {}
+    @Override
+    public void windowDeiconified(WindowEvent e) {}
+    @Override
+    public void windowActivated(WindowEvent e) {}
+    @Override
+    public void windowDeactivated(WindowEvent e) {}
 
-    public static void main(String[] args) throws IOException {
-        ImageTabViewer viewer = new ImageTabViewer("Image Tabs");
-        viewer.addImageTab("/Users/Admin/Desktop/Facultate/java/Bouldering_app/src/main/java/Bouldering_app/images/0.png", "Image 1");
-        viewer.display();
-    }
+
 }

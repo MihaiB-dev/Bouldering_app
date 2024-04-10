@@ -1,4 +1,4 @@
-package experiments;
+package Bouldering_app.domain;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,30 +10,39 @@ import java.nio.file.StandardCopyOption;
 
 public class AddImageApp extends Frame implements ActionListener, WindowListener {
 
-    private final String IMAGE_FOLDER = "/Users/Admin/Desktop/Facultate/java/Bouldering_app/src/main/java/experiments/images"; // Replace with actual path
+    private final String IMAGE_FOLDER = "/Users/Admin/Desktop/Facultate/java/Bouldering_app/src/main/java/Bouldering_app/images"; // Replace with actual path
     private final String[] ALLOWED_EXTENSIONS = {"jpg", "png", "heic"};
-    public AddImageApp() {
+    public Path destinationPath;
+    public AddImageApp(int ID) {
         super("Add Image");
 
         // Add WindowListener to handle window-closing event
         addWindowListener(this);
 
-
-
         // Open the file dialog directly
-        FileDialog fileDialog = new FileDialog(this, "Select Image", FileDialog.LOAD);
+        FileDialog fileDialog = new FileDialog(this, "Select Route", FileDialog.LOAD);
 
         fileDialog.setVisible(true);
 
         String fileName = fileDialog.getFile();
+
         if (fileName != null) {
             String filePath = fileDialog.getDirectory() + File.separator + fileName;
             File imageFile = new File(filePath);
 
+            // Extract filename and extension
+
+
             try {
+                int dotIndex = fileName.lastIndexOf('.');
+                String extension = "";
+                if (dotIndex > 0) {
+                    extension = fileName.substring(dotIndex + 1).toLowerCase();
+                }
+
                 // Copy the image file to the IMAGE_FOLDER
                 Path sourcePath = imageFile.toPath();
-                Path destinationPath = new File(IMAGE_FOLDER + File.separator + fileName).toPath();
+                destinationPath = new File(IMAGE_FOLDER + File.separator + ID + "." + extension).toPath();
                 Files.copy(sourcePath, destinationPath, StandardCopyOption.REPLACE_EXISTING);
 
                 System.out.println("Image added successfully: " + destinationPath);
@@ -77,7 +86,7 @@ public class AddImageApp extends Frame implements ActionListener, WindowListener
 
 
 
-    public static void main(String[] args) {
-        new AddImageApp();
-    }
+//    public static void main(String[] args) {
+//        AddImageApp image = new AddImageApp();
+//    }
 }

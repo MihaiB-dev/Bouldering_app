@@ -12,7 +12,7 @@ public class Climber extends User{
     public Climber(String full_name, String hashPassword) {
         super(full_name, hashPassword);
         avgGrade = 0;
-        userStats = new Stats();
+        userStats = new Stats(0,0,0,0);
         ascents = new ArrayList<>();
     }
 

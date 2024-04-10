@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserService {
 
-    private User[] users;
+    private static User[] users;
     private Scanner myObj;
     private static int lastIndex;
 
@@ -61,6 +61,7 @@ public class UserService {
         return -1;
     }
 
+    public static User getUser(int index){return users[index];}
     public boolean isSetter(int index){return users[index] instanceof Setter;}
     public boolean isClimber(int index){return users[index] instanceof Climber;}
 
