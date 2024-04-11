@@ -52,7 +52,8 @@ public class Main {
                     RouteService.addRouteSetter(UserService.getUser(loggedUser));
                     break;
                 case "3":
-                    //TODO make an archive method for the objects and move the images to other file
+                    RouteService.ArchiveRouteSetter(UserService.getUser(loggedUser));
+                    System.out.println("This route was successfully archived!");
                     break;
                 case "4":
                     int index = RouteService.chooseRoute(); // if index is -1 then we have an error

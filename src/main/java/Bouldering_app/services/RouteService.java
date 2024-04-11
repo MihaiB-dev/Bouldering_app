@@ -15,7 +15,7 @@ public class RouteService {
 
     private static int ID = 0;
 
-    private List<Route> archiveRoutes;
+    private static List<Route> archiveRoutes;
 
     private static Scanner myObj;
 
@@ -28,6 +28,7 @@ public class RouteService {
     public Route getRoute(int index){
         return routes.get(index);
     }
+
     public static void addRouteSetter(User setter){
         if (setter instanceof Setter) {
             addRoute(setter);
@@ -63,6 +64,17 @@ public class RouteService {
     }
     //get the index from a sorted array of Routes by date
 
+    public static void ArchiveRouteSetter(User setter){
+        if (setter instanceof Setter) {
+            archiveRoute(setter);
+        } else {
+            throw new IllegalArgumentException("Only Setter can archive routes");
+        }
+    }
+    private static void archiveRoute(User setter){
+        int routeIndex = chooseRoute();
+        archiveRoutes.add(routes.remove(routeIndex));
+    }
     public static int chooseRoute(){
         List<Tuple<Route, Integer>> routes_sorted = new ArrayList<>();
         for(int i = 0; i < routes.size(); i ++){
