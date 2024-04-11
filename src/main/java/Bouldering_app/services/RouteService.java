@@ -10,6 +10,9 @@ import java.util.*;
 public class RouteService {
     private static List<Route> routes;
 
+    //the key is the index from the router, the values are all avg grades of the users in that moment in time
+    private static Map<Integer, List<Grade>> routes_gradeUsers = new HashMap<Integer, List<Grade>>();
+
     private static int ID = 0;
 
     private List<Route> archiveRoutes;
@@ -107,7 +110,33 @@ public class RouteService {
         System.out.print("Attempts: ");
         String result = myObj.nextLine();
 
+
         ((Climber)climber).addAscent(new Ascent(routes.get(routeIndex), Integer.parseInt(result)));
+
+        //add attempts to the route
+        routes.get(routeIndex).addAttempts(Integer.parseInt(result));
+
+        //generate the live grade
+        //add users to the map to the route they have done
+        if (!routes_gradeUsers.containsKey(routeIndex)){
+            List<Grade> grades = new ArrayList<>();
+            grades.add(((Climber) climber).getAvgGrade());
+            routes_gradeUsers.put(routeIndex, grades);
+        }
+        else{
+            List<Grade> grades = routes_gradeUsers.get(routeIndex);
+            grades.add(((Climber) climber).getAvgGrade());
+            routes_gradeUsers.put(routeIndex, grades);
+        }
+
+        int sum = 0;
+        //calculate the arithmetic of the grades
+        for(Grade element : routes_gradeUsers.get(routeIndex)){
+            sum += element.ordinal();
+        }
+        int size_route_userGrades = routes_gradeUsers.get(routeIndex).size();
+
+        routes.get(routeIndex).setLiveGrade(Grade.values()[(int)(sum/size_route_userGrades)]);
     }
     public void archiveRoute(int index){
         archiveRoutes.add(routes.remove(index));

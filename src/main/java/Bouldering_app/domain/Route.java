@@ -48,7 +48,13 @@ public class Route {
         return routestats;
     }
 
+    public void setLiveGrade(Grade liveGrade) {
+        this.liveGrade = liveGrade;
+    }
 
+    public void addAttempts(int nrAttempts){
+        this.nrAttempts += nrAttempts;
+    }
     @Override
     public String toString() {
         return
