@@ -13,4 +13,8 @@ public class Ascent {
         this.attempts = attempts;
         this.date = LocalDateTime.now();
     }
+
+    public Route getRoute() {
+        return new Route(route);
+    }
 }

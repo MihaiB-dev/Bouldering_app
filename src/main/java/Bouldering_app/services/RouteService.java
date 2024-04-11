@@ -70,7 +70,7 @@ public class RouteService {
             System.out.println("Route " + i + ": ");
             System.out.print(routes.get(i).toString() + "\n\n");
         }
-        System.out.println("Choose a route to see the image by writing the index, or write -1 to exit");
+        System.out.println("Choose a route by writing the index, or write -1 to exit");
         int result = Integer.parseInt(myObj.nextLine());
 
         if (result > routes_sorted.size() || result == -1){
@@ -101,7 +101,13 @@ public class RouteService {
     //auto increment route attempts with attempts from the user ascent
     //Create a function for live grade (get the average of all users that added this route to their ascents) (maybe need a class)
     private static void addAscent(User climber){
-        //TODO
+        int routeIndex = chooseRoute();
+        if(routeIndex == -1){return;} //TODO throw exception
+
+        System.out.print("Attempts: ");
+        String result = myObj.nextLine();
+
+        ((Climber)climber).addAscent(new Ascent(routes.get(routeIndex), Integer.parseInt(result)));
     }
     public void archiveRoute(int index){
         archiveRoutes.add(routes.remove(index));

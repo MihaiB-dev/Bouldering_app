@@ -6,19 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Climber extends User implements UserInteractionService {
-    private int avgGrade;
+    private Grade avgGrade;
     private Stats userStats;
     private List<Ascent> ascents;
 
 
     public Climber(String full_name, String hashPassword) {
         super(full_name, hashPassword);
-        avgGrade = 0;
+        avgGrade = Grade._4;
         userStats = new Stats(0,0,0,0);
         ascents = new ArrayList<>();
     }
 
-    public int getAvgGrade() {
+    public Grade getAvgGrade() {
         return avgGrade;
     }
 
@@ -34,13 +34,24 @@ public class Climber extends User implements UserInteractionService {
     //Update user stats
     public void addAscent(Ascent ascent){
         ascents.add(ascent);
-        //TODO
+
+        //make avg grade
+        int sum = 0;
+        for(Ascent element : ascents){
+            Grade grade  = element.getRoute().getOriginalGrade();
+            sum += grade.ordinal();
+        }
+        avgGrade = Grade.values()[(int)(sum/ascents.size())];
+
+        //update user stats
+        //create a function of adding points
+        userStats.Update(ascent);
     }
 
     @Override
     public String printProfile() {
         return "name: " + this.getFull_name()
-                         + "\navg_grade: " + this.avgGrade
+                         + "\navg_grade: " + this.avgGrade + " Color: " + this.avgGrade.getColor()
                          + "\nStats:\n" + userStats ;
 //                         + "\n" + showAscents());
     }

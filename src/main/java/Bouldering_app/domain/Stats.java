@@ -2,6 +2,8 @@ package Bouldering_app.domain;
 
 import java.util.Scanner;
 
+import static java.lang.Double.min;
+
 public class Stats {
     public double strength;
     public double technique;
@@ -61,5 +63,12 @@ public class Stats {
         return bar.toString();
     }
 
-
+    public void Update(Ascent ascent){
+        Stats routeStats = ascent.getRoute().getRoutestats();
+        Grade routeGrade = ascent.getRoute().getOriginalGrade();
+        this.strength = min(100, this.strength  + routeGrade.importance() * routeStats.strength / 10);
+        this.technique = min(100, this.technique  + routeGrade.importance() * routeStats.technique / 10);
+        this.endurance +=  min(100, this.endurance  + routeGrade.importance() * routeStats.endurance / 10);
+        this.flexibility +=  min(100, this.flexibility  + routeGrade.importance() * routeStats.flexibility / 10);
+    }
 }

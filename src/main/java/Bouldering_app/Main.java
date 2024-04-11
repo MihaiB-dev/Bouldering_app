@@ -68,6 +68,34 @@ public class Main {
             }
         }
     }
+
+    public static void climberMainPage(){
+        while(loggedUser != -1){
+            System.out.println("---------Climber Main Page---------");
+            System.out.print("My profile = 1\nAdd Ascents = 2\nShow Routes = 4\nLog Out = 0\nYour choice: ");
+            String chosen = myObj.nextLine();
+            switch (chosen) {
+                case "1":
+                    UserService.profile(loggedUser);
+                    break;
+                case "2":
+                    //we add the user as argument to verify if the user is actually a setter
+                    RouteService.addAscentClimber(UserService.getUser(loggedUser));
+                    break;
+                case "3":
+                    int index = RouteService.chooseRoute(); // if index is -1 then we have an error
+                    if(index != -1){
+                        RouteService.showImage(index);
+                    }
+                    break;
+                case "0":
+                    loggedUser = -1;
+                    break;
+                default:
+                    System.out.println("Choose from one of the 4 variants");
+            }
+        }
+    }
     public static void main(String[] args) {
         System.out.println("Welcome to the Bouldering app:");
 
@@ -78,7 +106,7 @@ public class Main {
                 Main.unregisteredMainPage();
             }
             else if(UserService.isClimber(loggedUser)){
-                //TODO make the climber main page
+                Main.climberMainPage();
             }
             else if(UserService.isSetter(loggedUser)){
                 Main.setterMainPage();

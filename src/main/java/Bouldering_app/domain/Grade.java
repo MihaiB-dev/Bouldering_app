@@ -21,5 +21,16 @@ public enum Grade {
     public String getColor(){
         return color;
     }
+
+    public double importance(){
+        switch (this.color) {
+            case "green" -> {return 0.1;}
+            case "yellow" -> {return 0.2;}
+            case "red" -> {return 0.35;}
+            case "purple" -> {return 0.6;}
+            case "white" -> {return 0.8;}
+        }
+        return 0;
+    }
 }
 
