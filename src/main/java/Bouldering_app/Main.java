@@ -40,7 +40,7 @@ public class Main {
 
     public static void setterMainPage(){
         while(loggedUser != -1){
-            System.out.println("---------Setter Main Page---------");
+            System.out.println("---------Setter Main Page " + UserService.getUser(loggedUser).getFull_name() + "---------");
             System.out.print("My profile = 1\nAdd Routes = 2\nArchive Routes = 3\nShow Routes = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
@@ -71,7 +71,7 @@ public class Main {
 
     public static void climberMainPage(){
         while(loggedUser != -1){
-            System.out.println("---------Climber Main Page---------");
+            System.out.println("---------Climber Main Page : " + UserService.getUser(loggedUser).getFull_name() + "---------");
             System.out.print("My profile = 1\nAdd Ascents = 2\nShow Routes = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
@@ -100,12 +100,12 @@ public class Main {
         System.out.println("Welcome to the Bouldering app:");
 
         Main.unregisteredMainPage();
-
         while(true){
             if(loggedUser == -1){
                 Main.unregisteredMainPage();
             }
             else if(UserService.isClimber(loggedUser)){
+
                 Main.climberMainPage();
             }
             else if(UserService.isSetter(loggedUser)){
