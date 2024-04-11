@@ -68,9 +68,9 @@ public class RouteService {
         routes_sorted.sort(new RouteDateComparator());
         for (int i = 0; i < routes.size(); i ++){
             System.out.println("Route " + i + ": ");
-            System.out.print(routes.get(i).toString() + "\n\n");
+            System.out.print(routes_sorted.get(i).getRoute().toString() + "\n\n");
         }
-        System.out.println("Choose a route by writing the index, or write -1 to exit");
+        System.out.print("Choose a route by writing the index, or write -1 to exit: ");
         int result = Integer.parseInt(myObj.nextLine());
 
         if (result > routes_sorted.size() || result == -1){

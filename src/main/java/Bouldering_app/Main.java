@@ -72,7 +72,7 @@ public class Main {
     public static void climberMainPage(){
         while(loggedUser != -1){
             System.out.println("---------Climber Main Page : " + UserService.getUser(loggedUser).getFull_name() + "---------");
-            System.out.print("My profile = 1\nAdd Ascents = 2\nShow Routes = 4\nLog Out = 0\nYour choice: ");
+            System.out.print("My profile = 1\nAdd Ascents = 2\nShow Routes = 3\nShow your Ascents = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
                 case "1":
@@ -88,6 +88,8 @@ public class Main {
                         RouteService.showImage(index);
                     }
                     break;
+                case "4":
+                    UserService.showAscents(loggedUser);
                 case "0":
                     loggedUser = -1;
                     break;

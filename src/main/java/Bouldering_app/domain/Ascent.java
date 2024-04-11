@@ -14,7 +14,21 @@ public class Ascent {
         this.date = LocalDateTime.now();
     }
 
+    public Ascent(Ascent ascent){
+        this.route = ascent.route;
+        this.date = ascent.date;
+        this.attempts = ascent.attempts;
+    }
+
     public Route getRoute() {
         return new Route(route);
+    }
+
+    @Override
+    public String toString() {
+        return
+                "route: " + route +
+                "\ndate completed: " + date +
+                ", attempts for this ascent: " + attempts;
     }
 }

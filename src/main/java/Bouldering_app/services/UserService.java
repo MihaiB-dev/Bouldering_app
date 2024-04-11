@@ -40,8 +40,6 @@ public class UserService {
         }
         return lastIndex - 1;
     }
-
-
     public int LogIn(){
         System.out.println("---------LogIn---------");
 
@@ -60,7 +58,13 @@ public class UserService {
         return -1;
     }
 
+    public static void showAscents(int index){
+        if(!isClimber(index)){return;}
 
+        ((Climber)users[index]).showAscents_sortByDifficulty();
+
+
+    }
     public static void profile(int index){
         if (isSetter(index)) {
             System.out.println(((Setter) users[index]).printProfile());
