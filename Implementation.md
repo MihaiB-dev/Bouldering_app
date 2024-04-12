@@ -1,6 +1,11 @@
 # Implementation
 
-### Brief explanation of the classes
+## UML class diagram for the app:
+> **_NOTE:_**
+> This is a prediction, the names and functions will change along with the progress in the app.
+
+![image](readmeMaterials/boulderingApp.drawio.png)
+## Brief explanation of the classes
 
 In the **domain package** I have these following classes:
 * **[AddImageApp](src/main/java/Bouldering_app/domain/AddImageApp.java)** -> Opens a gui interface to choose from your computer an Image, and we will **make a copy and move it to the images folder**.
@@ -22,4 +27,4 @@ In the **services package** I have these following classes:
 
 The **[Main](src/main/java/Bouldering_app/Main.java)** class we have an unregistered main page, setter main page and a climber main page. For the current user logged in we use an Int (ID of the user) and we call in the Userservice and RouteService by this id.
 
-### How the important features are made?
+## How the important features are made?
