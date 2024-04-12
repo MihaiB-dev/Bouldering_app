@@ -153,7 +153,7 @@ Project Link: [https://github.com/MihaiB-dev/Bouldering_app](https://github.com/
 
 
 <!-- Markdown links and images-->
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/MihaiB-dev/Bouldering_app?style=for-the-badge
 [issues-url]: https://github.com/MihaiB-dev/Bouldering_app/issues
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
 [license-url]: https://github.com/MihaiB-dev/Bouldering_app/blob/main/LICENSE
