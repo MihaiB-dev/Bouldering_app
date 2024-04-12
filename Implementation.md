@@ -7,6 +7,8 @@
 ![image](readmeMaterials/boulderingApp.drawio.png)
 ## Brief explanation of the classes
 
+> Fun fact, at 12/4/2024 there were written 1542 lines of code in total
+
 In the **domain package** I have these following classes:
 * **[AddImageApp](src/main/java/Bouldering_app/domain/AddImageApp.java)** -> Opens a gui interface to choose from your computer an Image, and we will **make a copy and move it to the images folder**.
 * **[Ascent](src/main/java/Bouldering_app/domain/Ascent.java)** -> Contains a Route, datetime when is added and attempts (used further for liveGrade, attempts of a route, user profile stats).
