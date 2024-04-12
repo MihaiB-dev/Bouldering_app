@@ -8,8 +8,8 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="readmeMaterials/logo.webp" alt="Logo" width="100" height="100">
+  <a href="https://github.com/MihaiB-dev/Bouldering_app">
+    <img src="readmeMaterials/Logo.webp" alt="Logo" width="100" height="100">
   </a>
 
 <h3 align="center">Bouldering app project in Java</h3>
