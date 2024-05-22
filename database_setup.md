@@ -39,7 +39,7 @@ Write root for username, port 3307, password, test connectivity , rewrite passwo
 After pressing ok, a new tab will appear with the name console. 
 In it type 
 ```mysql
-create database yourdatabasename;
+create database Bouldering_app;
 ```
 If you close it by mistake, you can reopen it by **right click** on the right side to localhost -> new -> Query Console
 
