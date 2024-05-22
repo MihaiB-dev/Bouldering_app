@@ -99,14 +99,15 @@ For this app we will need to install OpenCV, and clone the project
 
 ### Prerequisites
 1. Follow this tutorial to [Install OpenCV](https://opencv.org/get-started/)
-
+2. Install docker + mysql image, [tutorial here (step 1 - 4)](https://github.com/MihaiB-dev/Bouldering_app/blob/main/Implementation.md)
 ### Installation
 1. Clone the repo
 ```sh
    git clone https://github.com/MihaiB-dev/Bouldering_app
    ```
-2. If you are using Intellij, you can watch with [tutorial](https://opencv.org/get-started/)
+2. If you are using Intellij, you can watch with [tutorial](https://medium.com/@aadimator/how-to-set-up-opencv-in-intellij-idea-6eb103c1d45c)
 
+3. Setup the docker database for this project, I've made a [tutorial here (step 5 and 6)](https://github.com/MihaiB-dev/Bouldering_app/blob/main/Implementation.md). Name the database **Bouldering_app**.
 ## Usage
 Firstly, run the Main.java.
 There are 3 pages : unregistered Page, setters main page and climbers main page.
