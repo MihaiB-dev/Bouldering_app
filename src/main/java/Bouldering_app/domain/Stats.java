@@ -40,13 +40,13 @@ public class Stats {
 
     @Override
     public String toString() {
-        return "Strength = " + progress_bar(strength) +
-                "\nTechnique = " + progress_bar(technique) +
-                "\nEndurance = " + progress_bar(endurance) +
-                "\nFlexibitility = " + progress_bar(flexibility);
+        return "Strength = " + progressBar(strength) +
+                "\nTechnique = " + progressBar(technique) +
+                "\nEndurance = " + progressBar(endurance) +
+                "\nFlexibitility = " + progressBar(flexibility);
     }
 
-    private String progress_bar(double value){
+    private String progressBar(double value){
         int completed = (int)value;
         int remaining = 100 - completed;
 

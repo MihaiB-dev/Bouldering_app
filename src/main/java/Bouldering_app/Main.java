@@ -1,7 +1,4 @@
 package Bouldering_app;
-import Bouldering_app.domain.Route;
-import Bouldering_app.domain.User;
-import Bouldering_app.domain.Password_hashing;
 import Bouldering_app.services.RouteService;
 import Bouldering_app.services.UserService;
 
@@ -40,7 +37,7 @@ public class Main {
 
     public static void setterMainPage(){
         while(loggedUser != -1){
-            System.out.println("---------Setter Main Page " + UserService.getUser(loggedUser).getFull_name() + "---------");
+            System.out.println("---------Setter Main Page " + UserService.getUser(loggedUser).getFullName() + "---------");
             System.out.print("My profile = 1\nAdd Routes = 2\nArchive Routes = 3\nShow Routes = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
@@ -72,7 +69,7 @@ public class Main {
 
     public static void climberMainPage(){
         while(loggedUser != -1){
-            System.out.println("---------Climber Main Page : " + UserService.getUser(loggedUser).getFull_name() + "---------");
+            System.out.println("---------Climber Main Page : " + UserService.getUser(loggedUser).getFullName() + "---------");
             System.out.print("My profile = 1\nAdd Ascents = 2\nShow Routes = 3\nShow your Ascents = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {

@@ -16,8 +16,8 @@ public class Climber extends User implements UserInteractionService {
     private List<Ascent> ascents;
 
 
-    public Climber(String full_name, String hashPassword) {
-        super(full_name, hashPassword);
+    public Climber(String fullName, String hashPassword) {
+        super(fullName, hashPassword);
         avgGrade = Grade._4;
         userStats = new Stats(0,0,0,0);
         ascents = new ArrayList<>();
@@ -53,14 +53,14 @@ public class Climber extends User implements UserInteractionService {
         userStats.Update(ascent);
     }
     public void showAscents_sortByDifficulty(){
-        List<Tuple<Ascent, Integer>> ascents_sorted = new ArrayList<>();
+        List<Tuple<Ascent, Integer>> ascentsSorted = new ArrayList<>();
         for(int i = 0; i < ascents.size(); i ++){
-            ascents_sorted.add(new Tuple<>(new Ascent(ascents.get(i)), i));
+            ascentsSorted.add(new Tuple<>(new Ascent(ascents.get(i)), i));
         }
-        ascents_sorted.sort(new AscentDifficultyComparator());
+        ascentsSorted.sort(new AscentDifficultyComparator());
         for (int i = 0; i < ascents.size(); i ++){
             System.out.println("Ascent " + i + ": ");
-            System.out.print(ascents_sorted.get(i).getRoute().toString() + "\n\n");
+            System.out.print(ascentsSorted.get(i).getRoute().toString() + "\n\n");
         }
 
         System.out.print("Choose an ascent by writing the index, or write -1 to exit: ");
@@ -77,7 +77,7 @@ public class Climber extends User implements UserInteractionService {
 
     @Override
     public String printProfile() {
-        return "name: " + this.getFull_name()
+        return "name: " + this.getFullName()
                          + "\navg_grade: " + this.avgGrade + " Color: " + this.avgGrade.getColor()
                          + "\nStats:\n" + userStats ;
 //                         + "\n" + showAscents());

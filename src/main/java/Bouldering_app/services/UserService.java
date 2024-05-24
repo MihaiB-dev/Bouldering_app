@@ -50,7 +50,7 @@ public class UserService {
         char[] hashed_password = myObj.nextLine().toCharArray();
         int i;
         for(i = 0; i < lastIndex; i ++){
-            if (users[i].getFull_name().equals(full_name) && p.authenticate(hashed_password, users[i].getHashPassword())){
+            if (users[i].getFullName().equals(full_name) && p.authenticate(hashed_password, users[i].getHashPassword())){
                 return i;
             }
         }

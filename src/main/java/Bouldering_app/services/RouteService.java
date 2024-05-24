@@ -4,14 +4,13 @@ import Bouldering_app.domain.*;
 
 import javax.swing.*;
 import java.nio.file.Path;
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class RouteService {
     private static List<Route> routes;
 
     //the key is the index from the router, the values are all avg grades of the users in that moment in time
-    private static Map<Integer, List<Grade>> routes_gradeUsers = new HashMap<Integer, List<Grade>>();
+    private static Map<Integer, List<Grade>> routesGradeUsers = new HashMap<Integer, List<Grade>>();
 
     private static int ID = 0;
 
@@ -76,23 +75,23 @@ public class RouteService {
         archiveRoutes.add(routes.remove(routeIndex));
     }
     public static int chooseRoute(){
-        List<Tuple<Route, Integer>> routes_sorted = new ArrayList<>();
+        List<Tuple<Route, Integer>> routesSorted = new ArrayList<>();
         for(int i = 0; i < routes.size(); i ++){
-            routes_sorted.add(new Tuple<>(new Route(routes.get(i)), i));
+            routesSorted.add(new Tuple<>(new Route(routes.get(i)), i));
         }
-        routes_sorted.sort(new RouteDateComparator());
+        routesSorted.sort(new RouteDateComparator());
         for (int i = 0; i < routes.size(); i ++){
             System.out.println("Route " + i + ": ");
-            System.out.print(routes_sorted.get(i).getRoute().toString() + "\n\n");
+            System.out.print(routesSorted.get(i).getRoute().toString() + "\n\n");
         }
         System.out.print("Choose a route by writing the index, or write -1 to exit: ");
         int result = Integer.parseInt(myObj.nextLine());
 
-        if (result > routes_sorted.size() || result == -1){
+        if (result > routesSorted.size() || result == -1){
             return -1;
         }
 
-        return routes_sorted.get(result).getInteger();
+        return routesSorted.get(result).getInteger();
     }
 
     public static void showImage(int index){
@@ -130,23 +129,23 @@ public class RouteService {
 
         //generate the live grade
         //add users to the map to the route they have done
-        if (!routes_gradeUsers.containsKey(routeIndex)){
+        if (!routesGradeUsers.containsKey(routeIndex)){
             List<Grade> grades = new ArrayList<>();
             grades.add(((Climber) climber).getAvgGrade());
-            routes_gradeUsers.put(routeIndex, grades);
+            routesGradeUsers.put(routeIndex, grades);
         }
         else{
-            List<Grade> grades = routes_gradeUsers.get(routeIndex);
+            List<Grade> grades = routesGradeUsers.get(routeIndex);
             grades.add(((Climber) climber).getAvgGrade());
-            routes_gradeUsers.put(routeIndex, grades);
+            routesGradeUsers.put(routeIndex, grades);
         }
 
         int sum = 0;
         //calculate the arithmetic of the grades
-        for(Grade element : routes_gradeUsers.get(routeIndex)){
+        for(Grade element : routesGradeUsers.get(routeIndex)){
             sum += element.ordinal();
         }
-        int size_route_userGrades = routes_gradeUsers.get(routeIndex).size();
+        int size_route_userGrades = routesGradeUsers.get(routeIndex).size();
 
         routes.get(routeIndex).setLiveGrade(Grade.values()[(int)(sum/size_route_userGrades)]);
     }

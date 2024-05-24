@@ -9,8 +9,8 @@ public class Setter extends User implements UserInteractionService {
     private List<Route> addedRoutes;
     private LocalDate dateEmployee;
 
-    public Setter(String full_name, String hashPassword) {
-        super(full_name, hashPassword);
+    public Setter(String fullName, String hashPassword) {
+        super(fullName, hashPassword);
         this.addedRoutes  = new ArrayList<>();
         this.dateEmployee = LocalDate.now();
     }
@@ -29,7 +29,7 @@ public class Setter extends User implements UserInteractionService {
 
     @Override
     public String printProfile() {
-        return "name: " + this.getFull_name() +
+        return "name: " + this.getFullName() +
                 "\naddedRoutes: " +
                 //TODO create a method to show all routes (get from the routeservice)(maybe add to interface)
                 "\ndate employee: " + this.dateEmployee;
