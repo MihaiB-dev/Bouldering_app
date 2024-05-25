@@ -1,5 +1,6 @@
 package Bouldering_app.services;
 
+import Bouldering_app.databaseConnections.DatabaseUser;
 import Bouldering_app.domain.*;
 
 import java.util.Scanner;  // Import the Scanner class
@@ -7,15 +8,17 @@ import java.util.Scanner;  // Import the Scanner class
 
 public class UserService {
 
-    private static User[] users;
+    private User current_user = null;
     private Scanner myObj;
-    private static int lastIndex;
+    private static int lastIndex; //lastIndex
 
+    private DatabaseUser databaseUser = DatabaseUser.DatabaseUser();
     private Password_hashing p = new Password_hashing(16);
     public UserService() {
-        this.users = new User[1000];
+        this.current_user = new User();
         myObj = new Scanner(System.in);
-        lastIndex = 0;
+        lastIndex = databaseUser.getLastId();
+        System.out.println("Last index: " + lastIndex);
     }
 
     public int SignUp(){
@@ -28,15 +31,23 @@ public class UserService {
         System.out.print("Full name: ");
         String full_name = myObj.nextLine();
 
+        boolean isDuplicate = databaseUser.verifyDuplicateName(full_name);
+        if(isDuplicate){
+            System.out.println("Numele este deja folosit");
+            return -1;
+        }
+
         System.out.print("Password: ");
         switch (switchel){
             case "1":
-                users[lastIndex] = new Climber(full_name, p.hash(myObj.nextLine().toCharArray()));
-                lastIndex ++;
+                databaseUser.insertClimber(full_name, p.hash(myObj.nextLine().toCharArray()), lastIndex);
+                current_user = databaseUser.getById(lastIndex);
+                lastIndex++;
                 break;
             case "2":
-                users[lastIndex] = new Setter(full_name, p.hash(myObj.nextLine().toCharArray()));
-                lastIndex ++;
+                databaseUser.insertSetter(full_name, p.hash(myObj.nextLine().toCharArray()), lastIndex);
+                current_user = databaseUser.getById(lastIndex);
+                lastIndex++;
         }
         return lastIndex - 1;
     }
@@ -49,32 +60,36 @@ public class UserService {
         System.out.print("Password: ");
         char[] hashed_password = myObj.nextLine().toCharArray();
         int i;
-        for(i = 0; i < lastIndex; i ++){
-            if (users[i].getFullName().equals(full_name) && p.authenticate(hashed_password, users[i].getHashPassword())){
-                return i;
-            }
+        int id_result =  databaseUser.authenticate(p, full_name, hashed_password);
+        if(id_result == 0){
+            System.out.println("Numele sau parola sunt gresite");
+            return -1;
         }
-        System.out.println("Numele sau parola sunt gresite");
-        return -1;
-    }
-
-    public static void showAscents(int index){
-        if(!isClimber(index)){return;}
-
-        ((Climber)users[index]).showAscents_sortByDifficulty();
+        else{
+            current_user = databaseUser.getById(id_result);
+            return id_result;
+        }
 
 
     }
-    public static void profile(int index){
-        if (isSetter(index)) {
-            System.out.println(((Setter) users[index]).printProfile());
+
+//    public static void showAscents(int index){
+//        if(!isClimber(index)){return;}
+//
+//        ((Climber) current_user[index]).showAscents_sortByDifficulty();
+//
+//
+//    }
+    public  void profile(){
+        if (isSetter()) {
+            System.out.println(((Setter) current_user).printProfile());
         } else {
-            System.out.println(((Climber) users[index]).printProfile());
+            System.out.println(((Climber) current_user).printProfile());
         }
     }
-    public static User getUser(int index){return users[index];}
-    public static boolean isSetter(int index){return users[index] instanceof Setter;}
-    public static boolean isClimber(int index){return users[index] instanceof Climber;}
+    public User getUser(){return current_user;}
+    public boolean isSetter(){return current_user instanceof Setter;}
+    public boolean isClimber(){return current_user instanceof Climber;}
 
 
 

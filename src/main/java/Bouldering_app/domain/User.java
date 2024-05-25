@@ -13,6 +13,10 @@ public class User {
 
     }
 
+    public User() {
+
+    }
+
     public String getFullName() {
         return fullName;
     }

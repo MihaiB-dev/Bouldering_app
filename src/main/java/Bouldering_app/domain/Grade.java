@@ -32,5 +32,32 @@ public enum Grade {
         }
         return 0;
     }
+
+    public static Grade fromString(String grade){
+        switch (grade){
+            case "4" -> {return _4;}
+            case "5" -> {return _5;}
+            case "5+" -> {return _5PLUS;}
+            case "6A" -> {return _6A;}
+            case "6A+" -> {return _6APLUS;}
+            case "6B" -> {return _6B;}
+            case "6B+" -> {return _6BPLUS;}
+            case "6C" -> {return _6C;}
+            case "6C+" -> {return _6CPLUS;}
+            case "7A" -> {return _7A;}
+            case "7A+" -> {return _7APLUS;}
+            case "7B" -> {return _7B;}
+            case "7B+" -> {return _7BPLUS;}
+            case "7C" -> {return _7C;}
+            case "7C+" -> {return _7CPLUS;}
+            case "8A" -> {return _8A;}
+            case "8A+" -> {return _8APLUS;}
+            case "8B" -> {return _8B;}
+            case "8B+" -> {return _8BPLUS;}
+            case "8C" -> {return _8CPLUS;}
+            case "9A" -> {return _9A;}
+        }
+        return null;
+    }
 }
 

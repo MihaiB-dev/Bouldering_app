@@ -9,7 +9,7 @@ public class Setter extends User implements UserInteractionService {
     private List<Route> addedRoutes;
     private LocalDate dateEmployee;
 
-    public Setter(String fullName, String hashPassword) {
+    public Setter(String fullName, String hashPassword, LocalDate dateEmployee) {
         super(fullName, hashPassword);
         this.addedRoutes  = new ArrayList<>();
         this.dateEmployee = LocalDate.now();

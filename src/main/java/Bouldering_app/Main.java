@@ -40,19 +40,19 @@ public class Main {
 
     public static void setterMainPage(){
         while(loggedUser != -1){
-            System.out.println("---------Setter Main Page " + UserService.getUser(loggedUser).getFullName() + "---------");
+            System.out.println("---------Setter Main Page " + userService.getUser().getFullName() + "---------");
             System.out.print("My profile = 1\nAdd Routes = 2\nArchive Routes = 3\nShow Routes = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
                 case "1":
-                    UserService.profile(loggedUser);
+                    userService.profile();
                     break;
                 case "2":
                     //we add the user as argument to verify if the user is actually a setter
-                    RouteService.addRouteSetter(UserService.getUser(loggedUser));
+                    RouteService.addRouteSetter(userService.getUser());
                     break;
                 case "3":
-                    RouteService.ArchiveRouteSetter(UserService.getUser(loggedUser));
+                    RouteService.ArchiveRouteSetter(userService.getUser());
                     System.out.println("This route was successfully archived!");
                     break;
                 case "4":
@@ -72,16 +72,16 @@ public class Main {
 
     public static void climberMainPage(){
         while(loggedUser != -1){
-            System.out.println("---------Climber Main Page : " + UserService.getUser(loggedUser).getFullName() + "---------");
+            System.out.println("---------Climber Main Page : " + userService.getUser().getFullName() + "---------");
             System.out.print("My profile = 1\nAdd Ascents = 2\nShow Routes = 3\nShow your Ascents = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
                 case "1":
-                    UserService.profile(loggedUser);
+                    userService.profile();
                     break;
                 case "2":
                     //we add the user as argument to verify if the user is actually a setter
-                    RouteService.addAscentClimber(UserService.getUser(loggedUser));
+                    RouteService.addAscentClimber(userService.getUser());
                     break;
                 case "3":
                     int index = RouteService.chooseRoute(); // if index is -1 then we have an error
@@ -90,7 +90,7 @@ public class Main {
                     }
                     break;
                 case "4":
-                    UserService.showAscents(loggedUser);
+                    //userService.showAscents();
                 case "0":
                     loggedUser = -1;
                     break;
@@ -113,11 +113,11 @@ public class Main {
             if(loggedUser == -1){
                 Main.unregisteredMainPage();
             }
-            else if(UserService.isClimber(loggedUser)){
+            else if(userService.isClimber()){
 
                 Main.climberMainPage();
             }
-            else if(UserService.isSetter(loggedUser)){
+            else if(userService.isSetter()){
                 Main.setterMainPage();
             }
         }

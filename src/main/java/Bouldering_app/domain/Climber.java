@@ -1,5 +1,6 @@
 package Bouldering_app.domain;
 
+import Bouldering_app.databaseConnections.DatabaseStats;
 import Bouldering_app.services.UserInteractionService;
 
 import javax.swing.*;
@@ -21,6 +22,13 @@ public class Climber extends User implements UserInteractionService {
         avgGrade = Grade._4;
         userStats = new Stats(0,0,0,0);
         ascents = new ArrayList<>();
+    }
+    public Climber(String fullName, String hashPassword, String avgGrade, int userStats) {
+        super(fullName, hashPassword);
+        DatabaseStats databaseStats = DatabaseStats.DatabaseStats();
+
+        this.avgGrade = Grade.fromString(avgGrade);
+        this.userStats = DatabaseStats.getById(userStats);
     }
 
     public Grade getAvgGrade() {

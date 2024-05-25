@@ -38,7 +38,7 @@ public class SetupTables {
                 CREATE TABLE IF NOT EXISTS climber (
                 id int PRIMARY KEY AUTO_INCREMENT,
                 id_user int,
-                avGrade varchar(20),
+                avgGrade varchar(20),
                 userStats int,
                 
                 foreign key(id_user) references user(id),
