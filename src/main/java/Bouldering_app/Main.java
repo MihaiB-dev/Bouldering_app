@@ -1,7 +1,10 @@
 package Bouldering_app;
 import Bouldering_app.services.RouteService;
 import Bouldering_app.services.UserService;
+import config.DatabaseConfiguration;
+import config.SetupTables;
 
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class Main {
@@ -96,7 +99,13 @@ public class Main {
             }
         }
     }
+
+    public static void createDatabase(){
+        SetupTables setupTables = new SetupTables();
+        setupTables.createTables();
+    }
     public static void main(String[] args) {
+        Main.createDatabase();
         System.out.println("Welcome to the Bouldering app:");
 
         Main.unregisteredMainPage();
