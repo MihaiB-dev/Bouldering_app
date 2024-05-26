@@ -119,4 +119,21 @@ public class UserService {
         }
         databaseUser.deleteUser(fullName);
     }
+
+    public void forgotPassword() {
+        System.out.println("---------Forgot Password---------");
+        System.out.print("Full name: ");
+        String full_name = myObj.nextLine();
+        System.out.print("Email to mihaibivol.dev@gmail.com to change your password, here you can write what code sent you: ");
+        String enter_secret_code = myObj.nextLine();
+        if (enter_secret_code.equals("pao")) {
+            System.out.print("New password: ");
+            char[] hashed_password = myObj.nextLine().toCharArray();
+            databaseUser.updatePassword(full_name, p.hash(hashed_password));
+        } else {
+            System.out.println("Wrong code");
+        }
+
+
+    }
 }

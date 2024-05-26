@@ -15,7 +15,7 @@ public class Main {
     public static void unregisteredMainPage(){
         while(loggedUser == -1) {
             System.out.println("---------Main Page---------");
-            System.out.print("Sing Up = 1\nLogIn = 2\nShow Routes = 3\nexit = 0\nYour choice: ");
+            System.out.print("Sing Up = 1\nLogIn = 2\nShow Routes = 3\nForgot Password = 4\nexit = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
                 case "1":
@@ -29,6 +29,9 @@ public class Main {
                     if(index != -1){RouteService.showImage(index);}else{
                         System.out.println("There isn't a route with this index");
                     }
+                    break;
+                case "4":
+                    userService.forgotPassword();
                     break;
                 case "0":
                     return;

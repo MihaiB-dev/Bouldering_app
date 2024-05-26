@@ -219,7 +219,19 @@ public class DatabaseUser {
     }
 
     public void deleteUser(String fullName) {
+        //delete the stats of the user (we have to find if it is climber or not)(make a big query)
+
+
         Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        //if it is a climber, we delete the stats of the climber, for setter we do no preprocessing
+        String deleteStats = "DELETE FROM stats WHERE id = (SELECT userStats FROM climber WHERE id_user = (SELECT id FROM user WHERE fullName = ?))";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(deleteStats);
+            preparedStatement.setString(1, fullName);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         String deleteUser = "DELETE FROM user WHERE fullName = ?";
         try {
@@ -230,6 +242,19 @@ public class DatabaseUser {
                 System.out.println("User not found");
             }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePassword(String fullName, String hash) {
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        String updatePassword = "UPDATE user SET hashPassword = ? WHERE fullName = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(updatePassword);
+            preparedStatement.setString(1, hash);
+            preparedStatement.setString(2, fullName);
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
