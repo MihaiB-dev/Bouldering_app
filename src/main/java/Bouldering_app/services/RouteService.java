@@ -71,10 +71,11 @@ public class RouteService {
         }
     }
     private static void archiveRoute(User setter){
-        int routeIndex = chooseRoute();
+        int routeIndex = chooseRoute("Choose the route you want to archive");
         archiveRoutes.add(routes.remove(routeIndex));
     }
-    public static int chooseRoute(){
+
+    public static int chooseRoute(String printValue){
         List<Tuple<Route, Integer>> routesSorted = new ArrayList<>();
         for(int i = 0; i < routes.size(); i ++){
             routesSorted.add(new Tuple<>(new Route(routes.get(i)), i));
@@ -84,7 +85,7 @@ public class RouteService {
             System.out.println("Route " + i + ": ");
             System.out.print(routesSorted.get(i).getRoute().toString() + "\n\n");
         }
-        System.out.print("Choose a route by writing the index, or write -1 to exit: ");
+        System.out.print(printValue + ", or write -1 to exit: ");
         int result = Integer.parseInt(myObj.nextLine());
 
         if (result > routesSorted.size() || result == -1){
@@ -115,7 +116,7 @@ public class RouteService {
     //auto increment route attempts with attempts from the user ascent
     //Create a function for live grade (get the average of all users that added this route to their ascents) (maybe need a class)
     private static void addAscent(User climber){
-        int routeIndex = chooseRoute();
+        int routeIndex = chooseRoute("Choose a route that you have done");
         if(routeIndex == -1){return;} //TODO throw exception
 
         System.out.print("Attempts: ");

@@ -22,7 +22,7 @@ public class SetupTables {
                 id int PRIMARY KEY AUTO_INCREMENT,
                 id_user int,
                 dateEmployee date,
-                foreign key(id_user) references user(id)
+                foreign key(id_user) references user(id) ON DELETE CASCADE
             )
             """;
         String createStats = """
@@ -41,8 +41,8 @@ public class SetupTables {
                 avgGrade varchar(20),
                 userStats int,
                 
-                foreign key(id_user) references user(id),
-                foreign key(userStats) references stats(id)
+                foreign key(id_user) references user(id) ON DELETE CASCADE,
+                foreign key(userStats) references stats(id) ON DELETE CASCADE
             )
             """;
         String createRoute = """
@@ -73,6 +73,9 @@ public class SetupTables {
                 foreign key (id_climber) references climber(id)
             )
             """;
+
+        String checkAdmin = "SELECT * FROM user WHERE fullName = 'admin'";
+
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try {

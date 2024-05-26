@@ -202,4 +202,36 @@ public class DatabaseUser {
         }
         return false;
     }
+
+    public void showAllUsers() {
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        String selectUser = "SELECT id, fullName FROM user";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(selectUser);
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            while (resultSet.next()){
+                System.out.println(resultSet.getInt("id") + " " + resultSet.getString("fullName"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteUser(String fullName) {
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+
+        String deleteUser = "DELETE FROM user WHERE fullName = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(deleteUser);
+            preparedStatement.setString(1, fullName);
+            int deleted = preparedStatement.executeUpdate();
+            if(deleted == 0){
+                System.out.println("User not found");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

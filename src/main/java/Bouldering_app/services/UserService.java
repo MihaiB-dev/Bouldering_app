@@ -19,6 +19,13 @@ public class UserService {
         myObj = new Scanner(System.in);
         lastIndex = databaseUser.getLastId();
         System.out.println("Last index: " + lastIndex);
+
+
+        //if the database is empty, we add the admin
+        if(lastIndex == 1){
+            databaseUser.insertSetter("admin", p.hash("ciscosecpa55".toCharArray()), lastIndex);
+            lastIndex++;
+        }
     }
 
     public int SignUp(){
@@ -66,7 +73,10 @@ public class UserService {
             return -1;
         }
         else{
-            current_user = databaseUser.getById(id_result);
+            if (full_name.equals("admin")){
+                current_user = databaseUser.getById(id_result);
+                return -2509;
+            }
             return id_result;
         }
 
@@ -92,5 +102,21 @@ public class UserService {
     public boolean isClimber(){return current_user instanceof Climber;}
 
 
+    public void showAllUsers(User user) {
+        //verify if the name is admin
+        if (!user.getFullName().equals("admin")) {
+            System.out.println("Only admin can see all users");
+            return;
+        }
+        databaseUser.showAllUsers();
+    }
 
+    public void deleteUser(User user, String fullName) {
+        //verify if the name is admin
+        if (!user.getFullName().equals("admin")) {
+            System.out.println("Only admin can see all users");
+            return;
+        }
+        databaseUser.deleteUser(fullName);
+    }
 }

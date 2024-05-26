@@ -25,7 +25,7 @@ public class Main {
                     loggedUser = userService.LogIn();
                     break;
                 case "3":
-                    int index = RouteService.chooseRoute(); // if index is -1 then we have an error
+                    int index = RouteService.chooseRoute("Choose a route to see the image"); // if index is -1 then we have an error
                     if(index != -1){RouteService.showImage(index);}else{
                         System.out.println("There isn't a route with this index");
                     }
@@ -56,7 +56,7 @@ public class Main {
                     System.out.println("This route was successfully archived!");
                     break;
                 case "4":
-                    int index = RouteService.chooseRoute(); // if index is -1 then we have an error
+                    int index = RouteService.chooseRoute("Choose a route to see the image"); // if index is -1 then we have an error
                     if(index != -1){
                         RouteService.showImage(index);
                     }
@@ -84,7 +84,7 @@ public class Main {
                     RouteService.addAscentClimber(userService.getUser());
                     break;
                 case "3":
-                    int index = RouteService.chooseRoute(); // if index is -1 then we have an error
+                    int index = RouteService.chooseRoute("Choose a route by writing the index"); // if index is -1 then we have an error
                     if(index != -1){
                         RouteService.showImage(index);
                     }
@@ -100,6 +100,45 @@ public class Main {
         }
     }
 
+    private static void adminMainPage() {
+        while(loggedUser == -2509){
+            System.out.println("---------Admin Main Page---------");
+            System.out.print("Delete a user = 1\nDelete a route = 2\nArchive an ascent = 3\nLog Out = 0\nYour choice: ");
+            String chosen = myObj.nextLine();
+            switch (chosen) {
+                case "1":
+                    //show all users and choose an index
+                    userService.showAllUsers(userService.getUser()); //it will be shown id, full name and type of user
+                    System.out.print("Full name of the user you want to delete: ");
+
+                    String fullName = myObj.nextLine();
+                    userService.deleteUser(userService.getUser(), fullName);
+                    break;
+                case "2":
+                    System.out.println("Warning: this a destructive operation, all the user ascents will be deleted too");
+                    //int index = routeService.chooseRoute("Choose the route you want to delete");
+                    //if(index == -1){
+                    //    System.out.println("There isn't a route with this index");
+                    //    break;
+                    //}
+                    //routeService.DeleteRoute(userService.getUser(), index);
+                    break;
+                case "3":
+                    System.out.print("Index of the ascent you want to delete: ");
+                    int indexAscent = Integer.parseInt(myObj.nextLine());
+                    //routeService.showAscents(userService.getUser());
+
+                    //routeService.deleteAscent(userService.getUser(), indexAscent); //it will shown id, date, route grade and users Ascent, ordered by username
+                    break;
+                case "0":
+                    loggedUser = -1;
+                    break;
+                default:
+                    System.out.println("Choose from one of the 4 variants");
+            }
+
+        }
+    }
     public static void createDatabase(){
         SetupTables setupTables = new SetupTables();
         setupTables.createTables();
@@ -113,6 +152,9 @@ public class Main {
             if(loggedUser == -1){
                 Main.unregisteredMainPage();
             }
+            else if(loggedUser == -2509){
+                Main.adminMainPage();
+            }
             else if(userService.isClimber()){
 
                 Main.climberMainPage();
@@ -122,4 +164,6 @@ public class Main {
             }
         }
     }
+
+
 }
