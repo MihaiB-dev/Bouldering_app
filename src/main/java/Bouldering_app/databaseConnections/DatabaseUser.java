@@ -1,13 +1,12 @@
 package Bouldering_app.databaseConnections;
 
-import Bouldering_app.domain.Climber;
-import Bouldering_app.domain.Password_hashing;
-import Bouldering_app.domain.Setter;
-import Bouldering_app.domain.User;
+import Bouldering_app.domain.*;
 import config.DatabaseConfiguration;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseUser {
     private static DatabaseUser databaseUser = null;
@@ -15,7 +14,7 @@ public class DatabaseUser {
     private DatabaseUser(){
 
     }
-    public static DatabaseUser DatabaseUser(){
+    public static DatabaseUser getDatabaseUser(){
         if (databaseUser == null){
             databaseUser = new DatabaseUser();
         }
@@ -38,35 +37,15 @@ public class DatabaseUser {
     public void insertClimber(String fullName, String hashPassword, int id_user) {
         Connection conn = DatabaseConfiguration.getDatabaseConnection();
         insertUser(fullName, hashPassword);
-        //firstly create a new Stats row
-        String insertStats = "INSERT INTO stats (strength, techinque, endurance, flexibility) VALUES (0,0,0,0)";
 
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(insertStats);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        //add a basic stats in the database
-        String selectStats = "SELECT id FROM stats ORDER BY id DESC LIMIT 1";
-        int id_stats = 0;
-        try {
-            PreparedStatement preparedStatement = conn.prepareStatement(selectStats);
-            preparedStatement.executeQuery();
-            preparedStatement.getResultSet().next();
-            id_stats = preparedStatement.getResultSet().getInt("id");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        int idStats = DatabaseStats.DatabaseStats().createStats();
         //finaly add the Climber
         String insertClimber = "INSERT INTO climber (id_user, avgGrade, userStats) VALUES (?,?,?)";
         try {
             PreparedStatement preparedStatement = conn.prepareStatement(insertClimber);
             preparedStatement.setInt(1, id_user);
             preparedStatement.setString(2, "4");
-            preparedStatement.setInt(3, id_stats);
+            preparedStatement.setInt(3, idStats);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -258,5 +237,98 @@ public class DatabaseUser {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getIdSetter(User setter){
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        //create a join between setter and user and chose setter id by the name of the user
+        String selectUser = "SELECT setter.id FROM setter JOIN user ON setter.id_user = user.id WHERE user.fullName = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(selectUser);
+            preparedStatement.setString(1, setter.getFullName());
+            preparedStatement.executeQuery();
+            if (preparedStatement.getResultSet().next()) {
+
+                return preparedStatement.getResultSet().getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    public int getIdClimber(User climber) {
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        //create a join between climber and user and chose climber id by the name of the user
+        String selectUser = "SELECT climber.id FROM climber JOIN user ON climber.id_user = user.id WHERE user.fullName = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(selectUser);
+            preparedStatement.setString(1, climber.getFullName());
+            preparedStatement.executeQuery();
+            if (preparedStatement.getResultSet().next()) {
+
+                return preparedStatement.getResultSet().getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+    public List<Route> getSetterRoutes(int setter_id) {
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        String selectRoutes = "SELECT * FROM route WHERE id_setter = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(selectRoutes);
+            preparedStatement.setInt(1, setter_id);
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            List<Route> routes = new ArrayList<>();
+            while (resultSet.next()){
+                //create list of routes and return it
+                Route route = new Route(resultSet.getString("originalGrade"),
+                                        resultSet.getString("path"),
+                                        resultSet.getInt("nrAttempts"),
+                                        resultSet.getString("liveGrade"),
+                                        resultSet.getDate("dateAdded").toLocalDate());
+
+                routes.add(route);
+            }
+            return routes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void setAvgGrade(int idClimber, Grade value) {
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        String updateAvgGrade = "UPDATE climber SET avgGrade = ? WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(updateAvgGrade);
+            preparedStatement.setString(1, value.toString());
+            preparedStatement.setInt(2, idClimber);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Grade> getAllClimberGrades(int idClimber) {
+        //get all the grades from the ascents of the climber
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        String selectGrades = "SELECT route.originalGrade FROM ascent JOIN route ON ascent.id_route = route.id WHERE ascent.id_climber = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(selectGrades);
+            preparedStatement.setInt(1, idClimber);
+            preparedStatement.executeQuery();
+            ResultSet resultSet = preparedStatement.getResultSet();
+            List<Grade> grades = new ArrayList<>();
+            while (resultSet.next()){
+                grades.add(Grade.valueOf(resultSet.getString("liveGrade")));
+            }
+            return grades;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

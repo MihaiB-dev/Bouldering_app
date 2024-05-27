@@ -1,4 +1,5 @@
 package Bouldering_app.domain;
+import Bouldering_app.databaseConnections.DatabaseUser;
 import Bouldering_app.services.UserInteractionService;
 
 import java.time.LocalDate; // import the LocalDate class
@@ -8,6 +9,7 @@ import java.util.List;
 public class Setter extends User implements UserInteractionService {
     private List<Route> addedRoutes;
     private LocalDate dateEmployee;
+    DatabaseUser databaseUser = DatabaseUser.getDatabaseUser();
 
     public Setter(String fullName, String hashPassword, LocalDate dateEmployee) {
         super(fullName, hashPassword);
@@ -16,16 +18,13 @@ public class Setter extends User implements UserInteractionService {
     }
 
     public List<Route> getAddedRoutes() {
-        return addedRoutes;
+        return databaseUser.getSetterRoutes(databaseUser.getIdSetter(this));
     }
 
     public LocalDate getDateEmployee() {
         return dateEmployee;
     }
 
-    public void addRoutes(Route route){
-        addedRoutes.add(route);
-    }
 
     @Override
     public String printProfile() {
