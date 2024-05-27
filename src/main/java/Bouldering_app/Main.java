@@ -26,7 +26,7 @@ public class Main {
                     break;
                 case "3":
                     int index = RouteService.chooseRoute("Choose a route to see the image"); // if index is -1 then we have an error
-                    if(index != -1){RouteService.showImage(index);}else{
+                    if(index != -1){routeService.showImage(index);}else{
                         System.out.println("There isn't a route with this index");
                     }
                     break;
@@ -52,16 +52,16 @@ public class Main {
                     break;
                 case "2":
                     //we add the user as argument to verify if the user is actually a setter
-                    RouteService.addRouteSetter(userService.getUser());
+                    routeService.addRouteSetter(userService.getUser());
                     break;
                 case "3":
-                    RouteService.ArchiveRouteSetter(userService.getUser());
+                    routeService.DeleteRouteSetter(userService.getUser());
                     System.out.println("This route was successfully archived!");
                     break;
                 case "4":
                     int index = RouteService.chooseRoute("Choose a route to see the image"); // if index is -1 then we have an error
                     if(index != -1){
-                        RouteService.showImage(index);
+                        routeService.showImage(index);
                     }
                     break;
                 case "0":
@@ -84,12 +84,14 @@ public class Main {
                     break;
                 case "2":
                     //we add the user as argument to verify if the user is actually a setter
-                    RouteService.addAscentClimber(userService.getUser());
+                    routeService.addAscentClimber(userService.getUser(), loggedUser);
+                    userService.updateUser(loggedUser);
+
                     break;
                 case "3":
                     int index = RouteService.chooseRoute("Choose a route by writing the index"); // if index is -1 then we have an error
                     if(index != -1){
-                        RouteService.showImage(index);
+                        routeService.showImage(index);
                     }
                     break;
                 case "4":

@@ -1,8 +1,8 @@
 package Bouldering_app.domain;
 
 import java.nio.file.Path;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 public class Route {
 
@@ -33,6 +33,23 @@ public class Route {
         this.dateAdded = route.getDateAdded();
     }
 
+    public Route(String originalGrade, String path, int nrAttempts, String liveGrade, LocalDate dateAdded) {
+        this.originalGrade = Grade.valueOf("_" + originalGrade);
+        this.namePicture = Path.of(path);
+        this.nrAttempts = nrAttempts;
+        this.liveGrade = Grade.valueOf("_" + liveGrade);
+        this.dateAdded = dateAdded;
+    }
+
+    public Route(String originalGrade, String path, int nrAttempts, String liveGrade, LocalDate dateAdded, Stats stats) {
+        this.originalGrade = Grade.valueOf("_" + originalGrade);
+        this.namePicture = Path.of(path);
+        this.nrAttempts = nrAttempts;
+        this.liveGrade = Grade.valueOf("_" + liveGrade);
+        this.dateAdded = dateAdded;
+        this.routestats = stats;
+    }
+
     public LocalDate getDateAdded() {
         return dateAdded;
     }
@@ -47,6 +64,7 @@ public class Route {
     public Stats getRoutestats() {
         return routestats;
     }
+    public String getPath(){return namePicture.toString();}
 
     public void setLiveGrade(Grade liveGrade) {
         this.liveGrade = liveGrade;

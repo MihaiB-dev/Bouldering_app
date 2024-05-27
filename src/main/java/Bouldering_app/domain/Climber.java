@@ -59,7 +59,9 @@ public class Climber extends User implements UserInteractionService {
         //update user stats
         //create a function of adding points
         userStats.Update(ascent);
+
     }
+
     public void showAscents_sortByDifficulty(){
         List<Tuple<Ascent, Integer>> ascentsSorted = new ArrayList<>();
         for(int i = 0; i < ascents.size(); i ++){

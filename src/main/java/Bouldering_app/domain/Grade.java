@@ -32,7 +32,12 @@ public enum Grade {
         }
         return 0;
     }
+    @Override
+    public String toString() {
+        //I want to return without _ the grade
+        return this.name().substring(1);
 
+    }
     public static Grade fromString(String grade){
         switch (grade){
             case "4" -> {return _4;}

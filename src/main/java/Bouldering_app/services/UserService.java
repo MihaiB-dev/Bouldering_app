@@ -12,7 +12,7 @@ public class UserService {
     private Scanner myObj;
     private static int lastIndex; //lastIndex
 
-    private DatabaseUser databaseUser = DatabaseUser.DatabaseUser();
+    private DatabaseUser databaseUser = DatabaseUser.getDatabaseUser();
     private Password_hashing p = new Password_hashing(16);
     public UserService() {
         this.current_user = new User();
@@ -73,13 +73,14 @@ public class UserService {
             return -1;
         }
         else{
+            current_user = databaseUser.getById(id_result);
+
             if (full_name.equals("admin")){
-                current_user = databaseUser.getById(id_result);
                 return -2509;
             }
+
             return id_result;
         }
-
 
     }
 
@@ -114,7 +115,7 @@ public class UserService {
     public void deleteUser(User user, String fullName) {
         //verify if the name is admin
         if (!user.getFullName().equals("admin")) {
-            System.out.println("Only admin can see all users");
+            System.out.println("Only admin can delete an user");
             return;
         }
         databaseUser.deleteUser(fullName);
@@ -134,6 +135,9 @@ public class UserService {
             System.out.println("Wrong code");
         }
 
+    }
 
+    public void updateUser(int loggedUser) {
+        current_user = databaseUser.getById(loggedUser);
     }
 }
