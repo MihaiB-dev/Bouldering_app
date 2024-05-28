@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.concurrent.TimeUnit;
 
 public class SetupTables {
 
@@ -28,10 +29,10 @@ public class SetupTables {
         String createStats = """
                 CREATE TABLE IF NOT EXISTS stats (
                 id int PRIMARY KEY AUTO_INCREMENT,
-                strength double(6,5),
-                techinque double(6,5),
-                endurance double(6,5),
-                flexibility double(6,5)
+                strength double(10,5),
+                techinque double(10,5),
+                endurance double(10,5),
+                flexibility double(10,5)
             )
             """;
         String createClimber = """
@@ -69,16 +70,16 @@ public class SetupTables {
                 attempts int,
                 id_climber int,
                 
-                foreign key (id_route) references route(id),
-                foreign key (id_climber) references climber(id)
+                foreign key (id_route) references route(id) ON DELETE CASCADE,
+                foreign key (id_climber) references climber(id) ON DELETE CASCADE
             )
             """;
 
-        String checkAdmin = "SELECT * FROM user WHERE fullName = 'admin'";
 
         Connection connection = DatabaseConfiguration.getDatabaseConnection();
 
         try {
+
             Statement statement = connection.createStatement();
             statement.execute(createUser);
 
@@ -91,11 +92,13 @@ public class SetupTables {
             statement = connection.createStatement();
             statement.execute(createClimber);
 
+
             statement = connection.createStatement();
             statement.execute(createRoute);
 
             statement = connection.createStatement();
             statement.execute(createAscent);
+
 
         } catch (SQLException e) {
             e.printStackTrace();

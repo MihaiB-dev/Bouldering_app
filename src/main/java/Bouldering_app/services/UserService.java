@@ -13,17 +13,22 @@ public class UserService {
     private static int lastIndex; //lastIndex
 
     private DatabaseUser databaseUser = DatabaseUser.getDatabaseUser();
-    private Password_hashing p = new Password_hashing(16);
+    private final Password_hashing p = new Password_hashing(16);
     public UserService() {
         this.current_user = new User();
         myObj = new Scanner(System.in);
         lastIndex = databaseUser.getLastId();
-        System.out.println("Last index: " + lastIndex);
-
 
         //if the database is empty, we add the admin
         if(lastIndex == 1){
+            System.out.println("Creating tables...");
+            System.out.println("The database is empty, we add the admin, setter and climber");
+
             databaseUser.insertSetter("admin", p.hash("ciscosecpa55".toCharArray()), lastIndex);
+            lastIndex++;
+            databaseUser.insertClimber("climber", p.hash("ciscosecpa55".toCharArray()), lastIndex);
+            lastIndex++;
+            databaseUser.insertSetter("setter", p.hash("ciscosecpa55".toCharArray()), lastIndex);
             lastIndex++;
         }
     }
@@ -84,13 +89,6 @@ public class UserService {
 
     }
 
-//    public static void showAscents(int index){
-//        if(!isClimber(index)){return;}
-//
-//        ((Climber) current_user[index]).showAscents_sortByDifficulty();
-//
-//
-//    }
     public  void profile(){
         if (isSetter()) {
             System.out.println(((Setter) current_user).printProfile());
@@ -139,5 +137,19 @@ public class UserService {
 
     public void updateUser(int loggedUser) {
         current_user = databaseUser.getById(loggedUser);
+        if (isClimber()) {
+            //add to the user the new ascent
+            int idClimber = DatabaseUser.getDatabaseUser().getIdClimber(current_user);
+            ((Climber) current_user).updateAscents(idClimber);
+        }
+
+    }
+
+    public void showAscents() {
+        if (!isClimber()) {
+            System.out.println("Only climbers can see their ascents");
+            return;
+        }
+        ((Climber) current_user).showAscents_sortByDifficulty();
     }
 }

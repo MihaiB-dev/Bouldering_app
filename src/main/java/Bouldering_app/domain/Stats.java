@@ -50,7 +50,6 @@ public class Stats {
 
         return bar.toString();
     }
-
     public void Update(Ascent ascent){
         Stats routeStats = ascent.getRoute().getRoutestats();
         Grade routeGrade = ascent.getRoute().getOriginalGrade();

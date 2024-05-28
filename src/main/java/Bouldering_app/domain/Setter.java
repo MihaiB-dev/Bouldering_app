@@ -17,15 +17,6 @@ public class Setter extends User implements UserInteractionService {
         this.dateEmployee = LocalDate.now();
     }
 
-    public List<Route> getAddedRoutes() {
-        return databaseUser.getSetterRoutes(databaseUser.getIdSetter(this));
-    }
-
-    public LocalDate getDateEmployee() {
-        return dateEmployee;
-    }
-
-
     @Override
     public String printProfile() {
         return "name: " + this.getFullName() +
@@ -34,14 +25,4 @@ public class Setter extends User implements UserInteractionService {
                 "\ndate employee: " + this.dateEmployee;
     }
 
-    //this will show the routes in descending order by date
-    @Override
-    public int chooseRoute() {
-        return 0;
-    }
-
-    @Override
-    public void showImage() {
-
-    }
 }

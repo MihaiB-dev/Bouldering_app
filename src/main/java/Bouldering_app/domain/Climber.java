@@ -1,5 +1,6 @@
 package Bouldering_app.domain;
 
+import Bouldering_app.databaseConnections.DatabaseAscent;
 import Bouldering_app.databaseConnections.DatabaseStats;
 import Bouldering_app.services.UserInteractionService;
 
@@ -16,19 +17,15 @@ public class Climber extends User implements UserInteractionService {
     private Stats userStats;
     private List<Ascent> ascents;
 
+    DatabaseAscent databaseAscent = DatabaseAscent.getDatabaseAscent();
 
-    public Climber(String fullName, String hashPassword) {
-        super(fullName, hashPassword);
-        avgGrade = Grade._4;
-        userStats = new Stats(0,0,0,0);
-        ascents = new ArrayList<>();
-    }
-    public Climber(String fullName, String hashPassword, String avgGrade, int userStats) {
+    public Climber(String fullName, String hashPassword, String avgGrade, int userStats, int idClimber) {
         super(fullName, hashPassword);
         DatabaseStats databaseStats = DatabaseStats.DatabaseStats();
 
         this.avgGrade = Grade.fromString(avgGrade);
         this.userStats = DatabaseStats.getById(userStats);
+        this.ascents = databaseAscent.getAscents(idClimber);
     }
 
     public Grade getAvgGrade() {
@@ -41,25 +38,6 @@ public class Climber extends User implements UserInteractionService {
 
     public List<Ascent> getAscents() {
         return ascents;
-    }
-
-    //change the avgGrade
-    //Update user stats
-    public void addAscent(Ascent ascent){
-        ascents.add(ascent);
-
-        //make avg grade
-        int sum = 0;
-        for(Ascent element : ascents){
-            Grade grade  = element.getRoute().getOriginalGrade();
-            sum += grade.ordinal();
-        }
-        avgGrade = Grade.values()[(int)(sum/ascents.size())];
-
-        //update user stats
-        //create a function of adding points
-        userStats.Update(ascent);
-
     }
 
     public void showAscents_sortByDifficulty(){
@@ -76,13 +54,14 @@ public class Climber extends User implements UserInteractionService {
         System.out.print("Choose an ascent by writing the index, or write -1 to exit: ");
         Scanner myObj = new Scanner(System.in);
         int result = Integer.parseInt(myObj.nextLine());
-
-        Path path = ascents.get(result).getRoute().getNamePicture();
-        SwingUtilities.invokeLater(() -> {
-            ImageViewer app = null;
-            app = new ImageViewer(path);
-            app.setVisible(true);
-        });
+        if (result != -1) {
+            Path path = ascents.get(result).getRoute().getNamePicture();
+            SwingUtilities.invokeLater(() -> {
+                ImageViewer app = null;
+                app = new ImageViewer(path);
+                app.setVisible(true);
+            });
+        }
     }
 
     @Override
@@ -95,16 +74,11 @@ public class Climber extends User implements UserInteractionService {
 
 
     //this will show the routes in descending order by difficulty
-    @Override
-    public int chooseRoute() {
-        return 0;
+
+
+    public void updateAscents(int idClimber) {
+        ascents = databaseAscent.getAscents(idClimber);
     }
-
-    @Override
-    public void showImage() {
-
-    }
-
 }
 
 class Tuple<A,B>{

@@ -1,7 +1,6 @@
 package Bouldering_app.domain;
 
 import java.nio.file.Path;
-import java.sql.Date;
 import java.time.LocalDate;
 
 public class Route {
@@ -66,13 +65,7 @@ public class Route {
     }
     public String getPath(){return namePicture.toString();}
 
-    public void setLiveGrade(Grade liveGrade) {
-        this.liveGrade = liveGrade;
-    }
 
-    public void addAttempts(int nrAttempts){
-        this.nrAttempts += nrAttempts;
-    }
     @Override
     public String toString() {
         return
@@ -83,5 +76,16 @@ public class Route {
                 ", dateAdded=" + dateAdded +
                 "\nroutestats=" + routestats.printForRoute()+
                 "\n";
+    }
+
+    public int getdatabaseId() {
+
+        //the filename file is after the last / and before the .jpg or .png
+        //get the last / from the string
+        String filename = namePicture.getFileName().toString();
+        int line = filename.lastIndexOf("/");
+        int dot = filename.lastIndexOf(".");
+        return Integer.parseInt(filename.substring(line + 1, dot));
+
     }
 }

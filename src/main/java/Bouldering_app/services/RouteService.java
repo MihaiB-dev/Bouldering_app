@@ -7,15 +7,14 @@ import Bouldering_app.databaseConnections.DatabaseUser;
 import Bouldering_app.domain.*;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class RouteService {
     //private static List<Route> routes;
-
-    //the key is the index from the router, the values are all avg grades of the users in that moment in time
-    private static Map<Integer, List<Grade>> routesGradeUsers = new HashMap<Integer, List<Grade>>();
-
 
     //private static List<Route> archiveRoutes;
 
@@ -74,31 +73,32 @@ public class RouteService {
     }
     //get the index from a sorted array of Routes by date
 
-    public void DeleteRouteSetter(User setter){
+    public void DeleteRouteSetter(User setter) throws IOException {
         if (setter instanceof Setter) {
             DeleteRoute();
         } else {
             throw new IllegalArgumentException("Only Setter can archive routes");
         }
     }
-    private void DeleteRoute(){
+    private void DeleteRoute() throws IOException {
         int routeIndex = chooseRoute("Choose the route you want to archive");
+        //delete the image from the images folder
 
+        Files.deleteIfExists(databaseRoute.getRouteById(routeIndex).getNamePicture());
         databaseRoute.removeRoute(routeIndex);
-        //archiveRoutes.add(routes.remove(routeIndex));
     }
 
     public static int chooseRoute(String printValue){
         List<Route> routes = DatabaseRoute.getDatabaseRoute().getRoutes();
 
-        List<Tuple<Route, Integer>> routesSorted = new ArrayList<>();
+        List<Route> routesSorted = new ArrayList<>();
         for(int i = 0; i < routes.size(); i ++){
-            routesSorted.add(new Tuple<>(new Route(routes.get(i)), i));
+            routesSorted.add(new Route(routes.get(i)));
         }
         routesSorted.sort(new RouteDateComparator());
         for (int i = 0; i < routes.size(); i ++){
             System.out.println("Route " + (i + 1) + ": ");
-            System.out.print(routesSorted.get(i).getRoute().toString() + "\n\n");
+            System.out.print(routesSorted.get(i).toString() + "\n\n");
         }
         System.out.print(printValue + ", or write -1 to exit: ");
         int result = Integer.parseInt(myObj.nextLine());
@@ -107,7 +107,7 @@ public class RouteService {
             return -1;
         }
 
-        return routesSorted.get(result).getInteger() + 1;
+        return routesSorted.get(result - 1).getdatabaseId();
     }
 
     public void showImage(int index){
@@ -146,6 +146,7 @@ public class RouteService {
         //create a new stat and change the original with the new one
 
         //change the stats using functions from the stats class
+        Ascent ascent = databaseAscent.getAscent(id_ascent);
         ((Climber) climber).getUserStats().Update(databaseAscent.getAscent(id_ascent));
 
         databaseStats.updateStats(databaseUser.getIdClimber(climber), ((Climber) climber).getUserStats());
@@ -175,28 +176,36 @@ public class RouteService {
         //routes.get(routeIndex).setLiveGrade(Grade.values()[(int)(sum/size_route_userGrades)]);
         databaseRoute.setLiveGrade(routeIndex, Grade.values()[(int)(sum/size_route_userGrades)]);
     }
-//    public void archiveRoute(int index){
-//        archiveRoutes.add(routes.remove(index));
-//    }
-//    public void showArchiveRoutes(){
-//         for (Route archiveRoute : archiveRoutes) {
-//             archiveRoute.toString();
-//         }
-//    }
-}
-class Tuple<A,B>{
-    public A route; public B integer;
 
-    public Tuple(A route, B integer) {
-        this.route = route;
-        this.integer = integer;
+    public int chooseAscent(User user) {
+        //get from the database all the ascents as tuple<Ascent, username>
+        List<Tuple<Ascent,String>> ascents = databaseAscent.getAllAscents();
+        for (int i = 0; i < ascents.size(); i ++) {
+            System.out.println("Ascent " + (i + 1) + ": ");
+            System.out.println("For user " + ascents.get(i).getValue2());
+            System.out.println(ascents.get(i).getValue1().toString());
+        }
+        System.out.print("choose an ascent, or write -1 to exit: ");
+        int result = Integer.parseInt(myObj.nextLine());
+
+        if (result > ascents.size() || result == -1){
+            return -1;
+        }
+        return databaseAscent.getById(databaseUser.getIdClimber(ascents.get(result-1).getValue2()), ascents.get(result - 1).getValue1().getRoute().getdatabaseId());
     }
-    public A getRoute() {return route;}
-    public B getInteger(){return integer;}
+
+    public void deleteAscent(User user, int indexAscent) {
+        if(user.getFullName().equals("admin")){
+            databaseAscent.deleteAscent(indexAscent);
+        }else {
+            System.out.println("Only Admin can delete ascents");
+        }
+    }
 }
-class RouteDateComparator implements Comparator<Tuple<Route, Integer>> {
+
+class RouteDateComparator implements Comparator<Route> {
     @Override
-    public int compare(Tuple<Route, Integer> route1, Tuple<Route, Integer> route2) {
-        return route2.getRoute().getDateAdded().compareTo(route1.getRoute().getDateAdded()); // Sort by date in descending order
+    public int compare(Route route1, Route route2) {
+        return route2.getDateAdded().compareTo(route1.getDateAdded()); // Sort by date in descending order
     }
 }

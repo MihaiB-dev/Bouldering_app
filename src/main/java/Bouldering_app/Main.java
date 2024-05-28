@@ -1,15 +1,14 @@
 package Bouldering_app;
 import Bouldering_app.services.RouteService;
 import Bouldering_app.services.UserService;
-import config.DatabaseConfiguration;
 import config.SetupTables;
 
-import java.sql.Connection;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
     private static int loggedUser = -1; //if it is positive, we have the index of the user
-    static UserService userService = new UserService();
+    static UserService userService ;
     static RouteService routeService = new RouteService();
     static Scanner myObj = new Scanner(System.in);
     public static void unregisteredMainPage(){
@@ -41,10 +40,10 @@ public class Main {
         }
     }
 
-    public static void setterMainPage(){
+    public static void setterMainPage() throws IOException {
         while(loggedUser != -1){
             System.out.println("---------Setter Main Page " + userService.getUser().getFullName() + "---------");
-            System.out.print("My profile = 1\nAdd Routes = 2\nArchive Routes = 3\nShow Routes = 4\nLog Out = 0\nYour choice: ");
+            System.out.print("My profile = 1\nAdd Routes = 2\nDelete Routes = 3\nShow Routes = 4\nLog Out = 0\nYour choice: ");
             String chosen = myObj.nextLine();
             switch (chosen) {
                 case "1":
@@ -95,17 +94,16 @@ public class Main {
                     }
                     break;
                 case "4":
-                    //userService.showAscents();
+                    userService.showAscents();
+                    break;
                 case "0":
                     loggedUser = -1;
                     break;
-                default:
-                    System.out.println("Choose from one of the 4 variants");
             }
         }
     }
 
-    private static void adminMainPage() {
+    private static void adminMainPage() throws IOException {
         while(loggedUser == -2509){
             System.out.println("---------Admin Main Page---------");
             System.out.print("Delete a user = 1\nDelete a route = 2\nArchive an ascent = 3\nLog Out = 0\nYour choice: ");
@@ -121,19 +119,14 @@ public class Main {
                     break;
                 case "2":
                     System.out.println("Warning: this a destructive operation, all the user ascents will be deleted too");
-                    //int index = routeService.chooseRoute("Choose the route you want to delete");
-                    //if(index == -1){
-                    //    System.out.println("There isn't a route with this index");
-                    //    break;
-                    //}
-                    //routeService.DeleteRoute(userService.getUser(), index);
+                    routeService.DeleteRouteSetter(userService.getUser());
+                    System.out.println("This route was successfully deleted!");
                     break;
                 case "3":
-                    System.out.print("Index of the ascent you want to delete: ");
-                    int indexAscent = Integer.parseInt(myObj.nextLine());
-                    //routeService.showAscents(userService.getUser());
-
-                    //routeService.deleteAscent(userService.getUser(), indexAscent); //it will shown id, date, route grade and users Ascent, ordered by username
+                    int index = routeService.chooseAscent(userService.getUser());
+                    if (index != -1){
+                        routeService.deleteAscent(userService.getUser(), index); //it will shown id, date, route grade and users Ascent, ordered by username
+                    }
                     break;
                 case "0":
                     loggedUser = -1;
@@ -148,8 +141,9 @@ public class Main {
         SetupTables setupTables = new SetupTables();
         setupTables.createTables();
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Main.createDatabase();
+        userService = new UserService();
         System.out.println("Welcome to the Bouldering app:");
 
         Main.unregisteredMainPage();
@@ -161,7 +155,6 @@ public class Main {
                 Main.adminMainPage();
             }
             else if(userService.isClimber()){
-
                 Main.climberMainPage();
             }
             else if(userService.isSetter()){

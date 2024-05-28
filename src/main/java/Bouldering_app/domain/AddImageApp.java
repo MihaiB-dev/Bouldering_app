@@ -31,8 +31,6 @@ public class AddImageApp extends Frame implements ActionListener, WindowListener
             File imageFile = new File(filePath);
 
             // Extract filename and extension
-
-
             try {
                 int dotIndex = fileName.lastIndexOf('.');
                 String extension = "";
@@ -84,9 +82,4 @@ public class AddImageApp extends Frame implements ActionListener, WindowListener
     @Override
     public void windowDeactivated(WindowEvent e) {}
 
-
-
-//    public static void main(String[] args) {
-//        AddImageApp image = new AddImageApp();
-//    }
 }

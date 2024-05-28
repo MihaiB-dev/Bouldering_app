@@ -80,7 +80,7 @@ public class DatabaseUser {
 
                 if (verifyIfClimber(id)){
                     // Join users and climber tables on id_user
-                    String selectClimber = "SELECT user.fullName, user.hashPassword, climber.avgGrade, climber.userStats " +
+                    String selectClimber = "SELECT climber.id, user.fullName, user.hashPassword, climber.avgGrade, climber.userStats " +
                             "FROM climber JOIN user ON climber.id_user = user.id " +
                             "WHERE climber.id_user = ?";
                     preparedStatement = conn.prepareStatement(selectClimber);
@@ -90,7 +90,12 @@ public class DatabaseUser {
                     java.sql.ResultSet resultSet = preparedStatement.getResultSet();
 
                     if (resultSet.next()){
-                        return new Climber(resultSet.getString("fullName"), resultSet.getString("hashPassword"), resultSet.getString("avgGrade"), resultSet.getInt("userStats"));
+                        return new Climber(resultSet.getString("fullName"),
+                                resultSet.getString("hashPassword"),
+                                resultSet.getString("avgGrade"),
+                                resultSet.getInt("userStats"),
+                                resultSet.getInt("id")
+                        );
                     }
 
                 } else {
@@ -273,6 +278,23 @@ public class DatabaseUser {
         }
         return -1;
     }
+
+    public int getIdClimber(String name){
+        //get the id of the climber by the fullName user
+        Connection conn = DatabaseConfiguration.getDatabaseConnection();
+        String selectUser = "SELECT climber.id FROM climber JOIN user ON climber.id_user = user.id WHERE user.fullName = ?";
+        try {
+            PreparedStatement preparedStatement = conn.prepareStatement(selectUser);
+            preparedStatement.setString(1, name);
+            preparedStatement.executeQuery();
+            if (preparedStatement.getResultSet().next()) {
+                return preparedStatement.getResultSet().getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
     public List<Route> getSetterRoutes(int setter_id) {
         Connection conn = DatabaseConfiguration.getDatabaseConnection();
         String selectRoutes = "SELECT * FROM route WHERE id_setter = ?";
@@ -323,7 +345,7 @@ public class DatabaseUser {
             ResultSet resultSet = preparedStatement.getResultSet();
             List<Grade> grades = new ArrayList<>();
             while (resultSet.next()){
-                grades.add(Grade.valueOf(resultSet.getString("liveGrade")));
+                grades.add(Grade.valueOf("_" + resultSet.getString("originalGrade")));
             }
             return grades;
         } catch (SQLException e) {
