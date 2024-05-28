@@ -34,6 +34,7 @@ public class UserService {
     }
 
     public int SignUp(){
+        reportService.logReport("SignUp");
         System.out.println("---------Sign-up---------");
 
         System.out.print("Climber = 1, Setter = 2, close = 0: ");
@@ -64,6 +65,7 @@ public class UserService {
         return lastIndex - 1;
     }
     public int LogIn(){
+        reportService.logReport("LogIn");
         System.out.println("---------LogIn---------");
 
         System.out.print("Full name: ");
@@ -90,6 +92,7 @@ public class UserService {
     }
 
     public  void profile(){
+        reportService.logReport("Profile");
         if (isSetter()) {
             System.out.println(((Setter) current_user).printProfile());
         } else {
@@ -102,6 +105,7 @@ public class UserService {
 
 
     public void showAllUsers(User user) {
+        reportService.logReport("showAllUsers");
         //verify if the name is admin
         if (!user.getFullName().equals("admin")) {
             System.out.println("Only admin can see all users");
@@ -111,6 +115,7 @@ public class UserService {
     }
 
     public void deleteUser(User user, String fullName) {
+        reportService.logReport("deleteUser");
         //verify if the name is admin
         if (!user.getFullName().equals("admin")) {
             System.out.println("Only admin can delete an user");
@@ -120,6 +125,7 @@ public class UserService {
     }
 
     public void forgotPassword() {
+        reportService.logReport("forgotPassword");
         System.out.println("---------Forgot Password---------");
         System.out.print("Full name: ");
         String full_name = myObj.nextLine();
@@ -146,6 +152,7 @@ public class UserService {
     }
 
     public void showAscents() {
+        reportService.logReport("showAscents");
         if (!isClimber()) {
             System.out.println("Only climbers can see their ascents");
             return;

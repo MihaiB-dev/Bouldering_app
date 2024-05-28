@@ -32,6 +32,7 @@ public class RouteService {
     }
 
     public void addRouteSetter(User setter){
+
         if (setter instanceof Setter) {
             addRoute(setter);
         } else {
@@ -39,17 +40,21 @@ public class RouteService {
         }
     }
     private  void addRoute(User setter){
+        reportService.logReport("addRoute");
         System.out.println("---------Add Route---------");
 
         System.out.print("Grade of the route (eg. : 4 or 5PLUS): ");
         String input = myObj.nextLine();
         Grade grade = Grade.valueOf("_" + input); //TODO try except method
         int ID = databaseRoute.getLastId();
+        reportService.logReport("addImage");
         AddImageApp image = new AddImageApp(ID); //image.destinationPath has the full path
 
         System.out.print("Do you want to specify on the image the route? [Y/N]: ");
         input = myObj.nextLine().toUpperCase();
         if(input.equals("Y") || input.equals("YES")){
+            reportService.logReport("editImage");
+
             SwingUtilities.invokeLater(() -> {
             editImage app = new editImage(image.destinationPath);
             app.setVisible(true);
@@ -74,6 +79,7 @@ public class RouteService {
     //get the index from a sorted array of Routes by date
 
     public void DeleteRouteSetter(User setter) throws IOException {
+
         if (setter instanceof Setter) {
             DeleteRoute();
         } else {
@@ -81,6 +87,7 @@ public class RouteService {
         }
     }
     private void DeleteRoute() throws IOException {
+        reportService.logReport("DeleteRoute");
         int routeIndex = chooseRoute("Choose the route you want to archive");
         //delete the image from the images folder
 
@@ -89,6 +96,7 @@ public class RouteService {
     }
 
     public static int chooseRoute(String printValue){
+        reportService.logReport("chooseRoute");
         List<Route> routes = DatabaseRoute.getDatabaseRoute().getRoutes();
 
         List<Route> routesSorted = new ArrayList<>();
@@ -110,7 +118,9 @@ public class RouteService {
         return routesSorted.get(result - 1).getdatabaseId();
     }
 
-    public void showImage(int index){
+    public void showImage(){
+        int index = RouteService.chooseRoute("Choose a route to see the image"); // if index is -1 then we have an error
+        reportService.logReport("showImage");
         Path path = databaseRoute.getRouteById(index).getNamePicture();
         SwingUtilities.invokeLater(() -> {
             ImageViewer app = null;
@@ -120,9 +130,9 @@ public class RouteService {
 
     }
 
-    public void addAscentClimber(User climber, int id_user){
+    public void addAscentClimber(User climber){
         if(climber instanceof Climber){
-            addAscent(climber,id_user);
+            addAscent(climber);
         }else {
             throw new IllegalArgumentException("Only Climbers can add Ascents");
         }
@@ -130,15 +140,21 @@ public class RouteService {
 
     //auto increment route attempts with attempts from the user ascent
     //Create a function for live grade (get the average of all users that added this route to their ascents) (maybe need a class)
-    private void addAscent(User climber, int id_user){
+    //There are multiple things that are done in this function:
+        //1. add Ascent to the database
+        //2. update the stats of the user
+        //3. update the average grade of the user
+        //4. update the attempts of the route
+        //5. update the live grade of the route
+    private void addAscent(User climber){
+        reportService.logReport("addAscent");
+
         int routeIndex = chooseRoute("Choose a route that you have done");
-        if(routeIndex == -1){return;} //TODO throw exception
+        if(routeIndex == -1){return;}
 
         System.out.print("Attempts: ");
         String attempts = myObj.nextLine();
 
-
-        //((Climber)climber).addAscent(new Ascent(databaseRoute.getRouteById(routeIndex), Integer.parseInt(attempts)));
         //update stats
 
         databaseAscent.addAscent(databaseUser.getIdClimber(climber), routeIndex, Integer.parseInt(attempts));
@@ -147,7 +163,7 @@ public class RouteService {
 
         //change the stats using functions from the stats class
         Ascent ascent = databaseAscent.getAscent(id_ascent);
-        ((Climber) climber).getUserStats().Update(databaseAscent.getAscent(id_ascent));
+        ((Climber) climber).getUserStats().Update(ascent);
 
         databaseStats.updateStats(databaseUser.getIdClimber(climber), ((Climber) climber).getUserStats());
 
@@ -178,6 +194,7 @@ public class RouteService {
     }
 
     public int chooseAscent(User user) {
+        reportService.logReport("chooseAscent");
         //get from the database all the ascents as tuple<Ascent, username>
         List<Tuple<Ascent,String>> ascents = databaseAscent.getAllAscents();
         for (int i = 0; i < ascents.size(); i ++) {
@@ -195,6 +212,7 @@ public class RouteService {
     }
 
     public void deleteAscent(User user, int indexAscent) {
+        reportService.logReport("deleteAscent");
         if(user.getFullName().equals("admin")){
             databaseAscent.deleteAscent(indexAscent);
         }else {

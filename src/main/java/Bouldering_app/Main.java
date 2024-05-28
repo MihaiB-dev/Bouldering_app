@@ -1,6 +1,7 @@
 package Bouldering_app;
 import Bouldering_app.services.RouteService;
 import Bouldering_app.services.UserService;
+import Bouldering_app.services.reportService;
 import config.SetupTables;
 
 import java.io.IOException;
@@ -24,10 +25,7 @@ public class Main {
                     loggedUser = userService.LogIn();
                     break;
                 case "3":
-                    int index = RouteService.chooseRoute("Choose a route to see the image"); // if index is -1 then we have an error
-                    if(index != -1){routeService.showImage(index);}else{
-                        System.out.println("There isn't a route with this index");
-                    }
+                    routeService.showImage();
                     break;
                 case "4":
                     userService.forgotPassword();
@@ -58,12 +56,10 @@ public class Main {
                     System.out.println("This route was successfully archived!");
                     break;
                 case "4":
-                    int index = RouteService.chooseRoute("Choose a route to see the image"); // if index is -1 then we have an error
-                    if(index != -1){
-                        routeService.showImage(index);
-                    }
+                    routeService.showImage();
                     break;
                 case "0":
+                    reportService.logReport("LogOut");
                     loggedUser = -1;
                     break;
                 default:
@@ -83,20 +79,18 @@ public class Main {
                     break;
                 case "2":
                     //we add the user as argument to verify if the user is actually a setter
-                    routeService.addAscentClimber(userService.getUser(), loggedUser);
+                    routeService.addAscentClimber(userService.getUser());
                     userService.updateUser(loggedUser);
 
                     break;
                 case "3":
-                    int index = RouteService.chooseRoute("Choose a route by writing the index"); // if index is -1 then we have an error
-                    if(index != -1){
-                        routeService.showImage(index);
-                    }
+                    routeService.showImage();
                     break;
                 case "4":
                     userService.showAscents();
                     break;
                 case "0":
+                    reportService.logReport("LogOut");
                     loggedUser = -1;
                     break;
             }
@@ -129,6 +123,7 @@ public class Main {
                     }
                     break;
                 case "0":
+                    reportService.logReport("LogOut");
                     loggedUser = -1;
                     break;
                 default:
