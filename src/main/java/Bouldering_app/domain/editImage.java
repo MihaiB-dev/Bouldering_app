@@ -41,7 +41,6 @@ public class editImage extends JFrame {
 
     public editImage(Path file) {
         setTitle("Bouldering App");
-        //setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         filePath = String.valueOf(file);
         // Load the image
@@ -170,9 +169,6 @@ public class editImage extends JFrame {
         Mat edges = new Mat();
         Imgproc.Canny(mat, edges, 100, 200);
 
-//        String outputFilePath = "/Users/Admin/Desktop/Facultate/java/Bouldering_app/src/main/java/images/canny_image1.png";
-//        Imgcodecs.imwrite(outputFilePath, edges);
-
         // Find nearest edge to the clicked point
         double[] nearestEdge = findNearestEdge(edges, clickedPoint);
 
@@ -227,10 +223,4 @@ public class editImage extends JFrame {
         return null;
     }
 
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> {
-//            test_edit_image app = new test_edit_image();
-//            app.setVisible(true);
-//        });
-//    }
 }

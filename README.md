@@ -80,6 +80,8 @@ There are some features that I want to implement during this project:
 8. A **main page** with all routes that are active on the walls.
 9. A visualization for Climbers to see their **Ascents sorted by difficulty**
 10. **Most popular routes** currently on the walls.
+11. An admin tht can Delete Users, Delete Routes and Ascents
+12. A report with all the functions that are used in the app (for school project)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -99,7 +101,7 @@ For this app we will need to install OpenCV, and clone the project
 
 ### Prerequisites
 1. Follow this tutorial to [Install OpenCV](https://opencv.org/get-started/)
-2. Install docker + mysql image, [tutorial here (step 1 - 4)](https://github.com/MihaiB-dev/Bouldering_app/blob/main/Implementation.md)
+2. Install docker + mysql image, [tutorial here (step 1 - 4)](https://github.com/MihaiB-dev/Bouldering_app/blob/main/database_setup.md)
 ### Installation
 1. Clone the repo
 ```sh
@@ -107,7 +109,7 @@ For this app we will need to install OpenCV, and clone the project
    ```
 2. If you are using Intellij, you can watch with [tutorial](https://medium.com/@aadimator/how-to-set-up-opencv-in-intellij-idea-6eb103c1d45c)
 
-3. Setup the docker database for this project, I've made a [tutorial here (step 5 and 6)](https://github.com/MihaiB-dev/Bouldering_app/blob/main/Implementation.md). Name the database **Bouldering_app**.
+3. Setup the docker database for this project, I've made a [tutorial here (step 5 and 6)](https://github.com/MihaiB-dev/Bouldering_app/blob/main/database_setup.md). Name the database **Bouldering_app**.
 ## Usage
 Firstly, run the Main.java.
 There are 3 pages : unregistered Page, setters main page and climbers main page.
@@ -131,9 +133,8 @@ Climber main page:
 - [x] Create the user profile (printing)
 - [x] Add ascents as climbers (auto functions : update user stats, auto increment route attempts with attempts from the usera ascent, update average grade from the user, update the liveGrade of the route by getting the average of all users that added this route to their ascents)
 - [x] Archive routes as setters
-- [ ] Connect to a database all the data stored
+- [x] Connect to a database all the data stored
 - [ ] Add exceptions (catch errors that may be)
-- [ ] Create a log for setters with routes that should be replaced soon
 - [ ] Log for setters when a new route is added
 
 See the [open issues](https://github.com/MihaiB-dev/Bouldering_app/issues) for a full list of proposed features (and known issues).
